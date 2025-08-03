@@ -12,13 +12,11 @@ import jakarta.persistence.Table;
 public class AttendanceEntity {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long attendanceId;
 	
-	@Column(nullable = false)
 	private StudentEntity student;
 	
-	@Column(nullable = false)
 	private SubjectEntity subject;
 	
 	@Column(nullable = false)

@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 public class BatchEntity {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long batchId;
 	
 	private SectionEntity section;

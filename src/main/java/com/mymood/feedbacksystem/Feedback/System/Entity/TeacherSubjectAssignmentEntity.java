@@ -12,13 +12,11 @@ import jakarta.persistence.Table;
 public class TeacherSubjectAssignmentEntity {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long teacherSubjectAssignmentId;
 	
-	@Column(nullable = false)
 	private TeacherEntity teacher;
 	
-	@Column(nullable = false)
 	private SubjectEntity subject;
 	
 	@Column(nullable = false)
@@ -27,10 +25,8 @@ public class TeacherSubjectAssignmentEntity {
 	@Column(nullable = false)
 	private Integer semester;
 	
-	@Column(nullable = false)
 	private SectionEntity section;
 	
-	@Column(nullable = false)
 	private BatchEntity batch;
 	
 	public TeacherSubjectAssignmentEntity() {

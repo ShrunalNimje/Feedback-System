@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 public class BranchEntity {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long branchId;
 	
 	private DepartmentEntity department;

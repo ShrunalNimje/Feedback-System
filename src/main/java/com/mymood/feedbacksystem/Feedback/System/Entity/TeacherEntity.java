@@ -14,7 +14,7 @@ import jakarta.validation.constraints.Size;
 public class TeacherEntity {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long teacherId;
 	
 	@Column(unique = false, nullable = false)
@@ -34,8 +34,7 @@ public class TeacherEntity {
 		
 	}
 
-	public TeacherEntity(Long teacherId, String name, @Email(message = "Please give a valid mail Id!") String email,
-			@Size(min = 8, message = "Password should be of atleast 8 characters!") String password,
+	public TeacherEntity(Long teacherId, String name, String email, String password,
 			DepartmentEntity department) {
 		super();
 		this.teacherId = teacherId;

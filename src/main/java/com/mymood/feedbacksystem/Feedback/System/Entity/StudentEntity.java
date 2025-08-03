@@ -13,7 +13,7 @@ import jakarta.validation.constraints.Email;
 public class StudentEntity {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long studentId;
 	
 	@Column(unique = true, nullable = false)
@@ -40,21 +40,17 @@ public class StudentEntity {
 	
 	private DepartmentEntity department;
 	
-	@Column(unique = true, nullable = false)
 	private BranchEntity branch;
 	
-	@Column(nullable = false)
 	private SectionEntity section;
 	
-	@Column(nullable = false)
 	private BatchEntity batch;
 	
 	public StudentEntity() {
 		
 	}
 
-	public StudentEntity(Long studentId, String enrollmentId, String name,
-			@Email(message = "Mail Id should be valid!") String email, String password, Integer year, Integer semester,
+	public StudentEntity(Long studentId, String enrollmentId, String name, String email, String password, Integer year, Integer semester,
 			Float attendance_percentage, DepartmentEntity department, BranchEntity branch, SectionEntity section,
 			BatchEntity batch) {
 		super();

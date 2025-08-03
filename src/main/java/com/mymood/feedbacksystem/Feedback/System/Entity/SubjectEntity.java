@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 public class SubjectEntity {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long subjectId;
 	
 	@Column(unique = true, nullable = false)
@@ -21,11 +21,11 @@ public class SubjectEntity {
 	@Column(unique = true, nullable = false)
 	private String code;
 	
-	@Column(unique = true, nullable = false)
+	@Column(nullable = false)
 	private String type;
 	
 	@Column(unique = false, nullable = false)
-	private String semester;
+	private Integer semester;
 	
 	private DepartmentEntity department;
 	
@@ -33,7 +33,7 @@ public class SubjectEntity {
 		
 	}
 
-	public SubjectEntity(Long subjectId, String name, String code, String type, String semester,
+	public SubjectEntity(Long subjectId, String name, String code, String type, Integer semester,
 			DepartmentEntity department) {
 		super();
 		this.subjectId = subjectId;
@@ -76,11 +76,11 @@ public class SubjectEntity {
 		this.type = type;
 	}
 
-	public String getSemester() {
+	public Integer getSemester() {
 		return semester;
 	}
 
-	public void setSemester(String semester) {
+	public void setSemester(Integer semester) {
 		this.semester = semester;
 	}
 
