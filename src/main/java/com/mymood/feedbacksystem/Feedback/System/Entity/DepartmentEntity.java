@@ -13,7 +13,7 @@ public class DepartmentEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long deptId;
+	private Long departmentId;
 	
 	@Column(unique = true, nullable = false)
 	private String name;
@@ -22,18 +22,18 @@ public class DepartmentEntity {
 		
 	}
 	
-	public DepartmentEntity(Long deptId, String name) {
+	public DepartmentEntity(Long departmentId, String name) {
 		super();
-		this.deptId = deptId;
+		this.departmentId = departmentId;
 		this.name = name;
 	}
 	
-	public Long getDeptId() {
-		return deptId;
+	public Long getDepartmentId() {
+		return departmentId;
 	}
 	
-	public void setDeptId(Long deptId) {
-		this.deptId = deptId;
+	public void setDepartmentId(Long departmentId) {
+		this.departmentId = departmentId;
 	}
 	
 	public String getName() {
