@@ -5,7 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
 
 @Entity
 @Table(name = "attendances")
@@ -15,17 +20,25 @@ public class AttendanceEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long attendanceId;
 	
+	@ManyToOne
+	@JoinColumn(name = "student_id", nullable = false)
 	private StudentEntity student;
 	
+	@ManyToOne
+	@JoinColumn(name = "subject_id", nullable = false)
 	private SubjectEntity subject;
 	
 	@Column(nullable = false)
+	@Min(0)
 	private Integer presentDays;
 	
+	@Min(0)
 	@Column(nullable = false)
 	private Integer totalDays;
 	
 	@Column(nullable = false)
+	@DecimalMin("0.0")
+	@DecimalMax("100.0")
 	private Double attendancePercentage;
 	
 	public AttendanceEntity() {

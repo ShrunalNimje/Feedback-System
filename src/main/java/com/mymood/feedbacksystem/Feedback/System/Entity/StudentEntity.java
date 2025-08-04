@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 
@@ -38,12 +40,20 @@ public class StudentEntity {
 	@Column(nullable = false)
 	private Float attendance_percentage;
 	
+	@ManyToOne
+	@JoinColumn(name = "department_id", nullable = false)
 	private DepartmentEntity department;
 	
+	@ManyToOne
+	@JoinColumn(name = "branch_id", nullable = false)
 	private BranchEntity branch;
 	
+	@ManyToOne
+	@JoinColumn(name = "section_id", nullable = false)
 	private SectionEntity section;
 	
+	@ManyToOne
+	@JoinColumn(name = "batch_id", nullable = false)
 	private BatchEntity batch;
 	
 	public StudentEntity() {
