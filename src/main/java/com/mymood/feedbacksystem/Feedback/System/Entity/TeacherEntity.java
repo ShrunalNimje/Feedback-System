@@ -30,18 +30,21 @@ public class TeacherEntity {
 	
 	private DepartmentEntity department;
 	
+	private UserEntity user;
+	
 	public TeacherEntity() {
 		
 	}
 
 	public TeacherEntity(Long teacherId, String name, String email, String password,
-			DepartmentEntity department) {
+			DepartmentEntity department, UserEntity user) {
 		super();
 		this.teacherId = teacherId;
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.department = department;
+		this.user = user;
 	}
 
 	public Long getTeacherId() {
@@ -82,6 +85,14 @@ public class TeacherEntity {
 
 	public void setDepartment(DepartmentEntity department) {
 		this.department = department;
+	}
+
+	public UserEntity getUser() {
+		return user;
+	}
+
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
 
 }

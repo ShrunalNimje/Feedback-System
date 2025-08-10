@@ -1,5 +1,7 @@
 package com.mymood.feedbacksystem.Feedback.System.Entity;
 
+import com.mymood.feedbacksystem.Feedback.System.Enum.SubjectType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,14 +17,14 @@ public class SubjectEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long subjectId;
 	
-	@Column(unique = true, nullable = false)
+	@Column(nullable = false)
 	private String name;
 	
-	@Column(unique = true, nullable = false)
+	@Column(nullable = false)
 	private String code;
 	
 	@Column(nullable = false)
-	private String type;
+	private SubjectType type;
 	
 	@Column(unique = false, nullable = false)
 	private Integer semester;
@@ -33,7 +35,7 @@ public class SubjectEntity {
 		
 	}
 
-	public SubjectEntity(Long subjectId, String name, String code, String type, Integer semester,
+	public SubjectEntity(Long subjectId, String name, String code, SubjectType type, Integer semester,
 			DepartmentEntity department) {
 		super();
 		this.subjectId = subjectId;
@@ -68,11 +70,11 @@ public class SubjectEntity {
 		this.code = code;
 	}
 
-	public String getType() {
+	public SubjectType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(SubjectType type) {
 		this.type = type;
 	}
 

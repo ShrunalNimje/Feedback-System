@@ -17,7 +17,7 @@ public class SectionEntity {
 	
 	private BranchEntity branch;
 	
-	@Column(unique = true, nullable = false)
+	@Column(nullable = false)
 	private String name;
 	
 	public SectionEntity() {

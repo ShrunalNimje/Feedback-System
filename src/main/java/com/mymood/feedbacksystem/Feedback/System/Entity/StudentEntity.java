@@ -38,7 +38,7 @@ public class StudentEntity {
 	private Integer semester;
 	
 	@Column(nullable = false)
-	private Float attendance_percentage;
+	private Float attendancePercentage;
 	
 	@ManyToOne
 	@JoinColumn(name = "department_id", nullable = false)
@@ -56,13 +56,15 @@ public class StudentEntity {
 	@JoinColumn(name = "batch_id", nullable = false)
 	private BatchEntity batch;
 	
+	private UserEntity user;
+	
 	public StudentEntity() {
 		
 	}
 
 	public StudentEntity(Long studentId, String enrollmentId, String name, String email, String password, Integer year, Integer semester,
-			Float attendance_percentage, DepartmentEntity department, BranchEntity branch, SectionEntity section,
-			BatchEntity batch) {
+			Float attendancePercentage, DepartmentEntity department, BranchEntity branch, SectionEntity section,
+			BatchEntity batch, UserEntity user) {
 		super();
 		this.studentId = studentId;
 		this.enrollmentId = enrollmentId;
@@ -71,11 +73,12 @@ public class StudentEntity {
 		this.password = password;
 		this.year = year;
 		this.semester = semester;
-		this.attendance_percentage = attendance_percentage;
+		this.attendancePercentage = attendancePercentage;
 		this.department = department;
 		this.branch = branch;
 		this.section = section;
 		this.batch = batch;
+		this.user = user;
 	}
 
 	public Long getStudentId() {
@@ -134,12 +137,12 @@ public class StudentEntity {
 		this.semester = semester;
 	}
 
-	public Float getAttendance_percentage() {
-		return attendance_percentage;
+	public Float getAttendancePercentage() {
+		return attendancePercentage;
 	}
 
-	public void setAttendance_percentage(Float attendance_percentage) {
-		this.attendance_percentage = attendance_percentage;
+	public void setAttendancePercentage(Float attendancePercentage) {
+		this.attendancePercentage = attendancePercentage;
 	}
 
 	public DepartmentEntity getDepartment() {
@@ -172,6 +175,14 @@ public class StudentEntity {
 
 	public void setBatch(BatchEntity batch) {
 		this.batch = batch;
+	}
+
+	public UserEntity getUser() {
+		return user;
+	}
+
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
 
 }

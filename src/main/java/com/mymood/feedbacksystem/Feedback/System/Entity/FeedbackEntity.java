@@ -39,10 +39,10 @@ public class FeedbackEntity {
 	private Integer semester;
 	
 	@Column(nullable = false)
-	private Double lat;
+	private Double latitude;
 	
 	@Column(nullable = false)
-	private Double lng;
+	private Double longitude;
 	
 	@Column(nullable = false)
 	@Min(1)
@@ -77,7 +77,7 @@ public class FeedbackEntity {
 	}
 
 	public FeedbackEntity(Long feedbackId, TeacherEntity teacher, StudentEntity student, SubjectEntity subject,
-			Integer semester, Double lat, Double lng, @Min(1) @Max(5) Integer question1_rating,
+			Integer semester, Double latitude, Double longitude, @Min(1) @Max(5) Integer question1_rating,
 			@Min(1) @Max(5) Integer question2_rating, @Min(1) @Max(5) Integer question3_rating,
 			@Min(1) @Max(5) Integer question4_rating, @Min(1) @Max(5) Integer question5_rating,
 			LocalDateTime submittedAt) {
@@ -87,8 +87,8 @@ public class FeedbackEntity {
 		this.student = student;
 		this.subject = subject;
 		this.semester = semester;
-		this.lat = lat;
-		this.lng = lng;
+		this.latitude = latitude;
+		this.longitude = longitude;
 		this.question1_rating = question1_rating;
 		this.question2_rating = question2_rating;
 		this.question3_rating = question3_rating;
@@ -137,20 +137,20 @@ public class FeedbackEntity {
 		this.semester = semester;
 	}
 
-	public Double getLat() {
-		return lat;
+	public Double getLatitude() {
+		return latitude;
 	}
 
-	public void setLat(Double lat) {
-		this.lat = lat;
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
 
-	public Double getLng() {
-		return lng;
+	public Double getLongitude() {
+		return longitude;
 	}
 
-	public void setLng(Double lng) {
-		this.lng = lng;
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
 	}
 
 	public Integer getQuestion1_rating() {
