@@ -14,9 +14,7 @@ public class BranchEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long branchId;
-	
-	private DepartmentEntity department;
-	
+		
 	@Column(unique = true, nullable = false)
 	private String name;
 	
@@ -24,10 +22,9 @@ public class BranchEntity {
 		
 	}
 
-	public BranchEntity(Long branchId, DepartmentEntity department, String name) {
+	public BranchEntity(Long branchId, String name) {
 		super();
 		this.branchId = branchId;
-		this.department = department;
 		this.name = name;
 	}
 
@@ -37,14 +34,6 @@ public class BranchEntity {
 
 	public void setBranchId(Long branchId) {
 		this.branchId = branchId;
-	}
-
-	public DepartmentEntity getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(DepartmentEntity department) {
-		this.department = department;
 	}
 
 	public String getName() {

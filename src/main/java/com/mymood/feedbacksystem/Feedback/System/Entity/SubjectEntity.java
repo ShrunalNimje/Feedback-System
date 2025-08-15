@@ -4,6 +4,8 @@ import com.mymood.feedbacksystem.Feedback.System.Enum.SubjectType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,30 +22,27 @@ public class SubjectEntity {
 	@Column(nullable = false)
 	private String name;
 	
-	@Column(nullable = false)
+	@Column(unique = true, nullable = false)
 	private String code;
 	
 	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	private SubjectType type;
 	
 	@Column(unique = false, nullable = false)
 	private Integer semester;
-	
-	private DepartmentEntity department;
-	
+		
 	public SubjectEntity() {
 		
 	}
 
-	public SubjectEntity(Long subjectId, String name, String code, SubjectType type, Integer semester,
-			DepartmentEntity department) {
+	public SubjectEntity(Long subjectId, String name, String code, SubjectType type, Integer semester) {
 		super();
 		this.subjectId = subjectId;
 		this.name = name;
 		this.code = code;
 		this.type = type;
 		this.semester = semester;
-		this.department = department;
 	}
 
 	public Long getSubjectId() {
@@ -84,14 +83,6 @@ public class SubjectEntity {
 
 	public void setSemester(Integer semester) {
 		this.semester = semester;
-	}
-
-	public DepartmentEntity getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(DepartmentEntity department) {
-		this.department = department;
 	}
 
 }

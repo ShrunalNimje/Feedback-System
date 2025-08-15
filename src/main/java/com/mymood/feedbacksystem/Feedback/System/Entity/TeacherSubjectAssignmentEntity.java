@@ -30,7 +30,7 @@ public class TeacherSubjectAssignmentEntity {
 	private SectionEntity section;
 	
 	@ManyToOne
-	@JoinColumn(name = "batch_id")
+	@JoinColumn(name = "batch_id", nullable = false)
 	private BatchEntity batch;
 	
 	@Column(nullable = false)

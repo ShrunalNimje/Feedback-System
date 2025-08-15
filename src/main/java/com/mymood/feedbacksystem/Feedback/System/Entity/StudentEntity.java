@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 
@@ -56,6 +57,8 @@ public class StudentEntity {
 	@JoinColumn(name = "batch_id", nullable = false)
 	private BatchEntity batch;
 	
+	@OneToOne
+	@JoinColumn(name = "user_id", nullable = false)
 	private UserEntity user;
 	
 	public StudentEntity() {

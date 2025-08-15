@@ -15,8 +15,6 @@ public class BatchEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long batchId;
 	
-	private SectionEntity section;
-	
 	@Column(unique = true, nullable = false)
 	private String name;
 	
@@ -24,10 +22,9 @@ public class BatchEntity {
 		
 	}
 
-	public BatchEntity(Long batchId, SectionEntity section, String name) {
+	public BatchEntity(Long batchId, String name) {
 		super();
 		this.batchId = batchId;
-		this.section = section;
 		this.name = name;
 	}
 
@@ -37,14 +34,6 @@ public class BatchEntity {
 
 	public void setBatchId(Long batchId) {
 		this.batchId = batchId;
-	}
-
-	public SectionEntity getSection() {
-		return section;
-	}
-
-	public void setSection(SectionEntity section) {
-		this.section = section;
 	}
 
 	public String getName() {
