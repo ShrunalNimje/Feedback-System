@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,14 +20,19 @@ public class SectionEntity {
 	@Column(nullable = false)
 	private String name;
 	
+	@ManyToOne
+	@JoinColumn(name = "branch_id", nullable = false)
+	private BranchEntity branch;
+	
 	public SectionEntity() {
 		
 	}
 
-	public SectionEntity(Long sectionId, String name) {
+	public SectionEntity(Long sectionId, String name, BranchEntity branch) {
 		super();
 		this.sectionId = sectionId;
 		this.name = name;
+		this.branch = branch;
 	}
 
 	public Long getSectionId() {
@@ -42,6 +49,14 @@ public class SectionEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public BranchEntity getBranch() {
+		return branch;
+	}
+
+	public void setBranch(BranchEntity branch) {
+		this.branch = branch;
 	}
 	
 }
