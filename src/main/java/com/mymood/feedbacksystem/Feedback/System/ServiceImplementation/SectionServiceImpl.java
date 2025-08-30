@@ -49,10 +49,9 @@ public class SectionServiceImpl implements SectionService{
 		BranchEntity branch = branchRepository.findById(update.getBranchId())
 				.orElseThrow(() -> new RuntimeException("Branch not found!"));
 		
-		sectionRepository.findById(id)
+		SectionEntity sec = sectionRepository.findById(id)
 		.orElseThrow(() -> new RuntimeException("Section not found!"));
 		
-		SectionEntity sec = new SectionEntity();
 		sec.setBranch(branch);
 		sec.setName(update.getName());
 		

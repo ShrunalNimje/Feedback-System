@@ -3,9 +3,9 @@ package com.mymood.feedbacksystem.Feedback.System.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.mymood.feedbacksystem.Feedback.System.Entity.AttendanceEntity;
+import com.mymood.feedbacksystem.Feedback.System.Entity.TeacherEntity;
 
 @Repository
-public interface TeacherRepository extends JpaRepository<AttendanceEntity, Long>{
+public interface TeacherRepository extends JpaRepository<TeacherEntity, Long>{
 	
 }

@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
@@ -28,16 +30,21 @@ public class TeacherEntity {
 	@Column(unique = false, nullable = false)
 	private String password;
 	
+	@ManyToOne
+	@JoinColumn(name = "department_id", nullable = false)
+	private DepartmentEntity department;
+	
 	public TeacherEntity() {
 		
 	}
 
-	public TeacherEntity(Long teacherId, String name, String email, String password) {
+	public TeacherEntity(Long teacherId, String name, String email, String password, DepartmentEntity department) {
 		super();
 		this.teacherId = teacherId;
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		this.department = department;
 	}
 
 	public Long getTeacherId() {
@@ -70,6 +77,14 @@ public class TeacherEntity {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public DepartmentEntity getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(DepartmentEntity department) {
+		this.department = department;
 	}
 
 }

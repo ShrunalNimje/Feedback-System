@@ -9,6 +9,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -32,17 +34,22 @@ public class SubjectEntity {
 	@Column(unique = false, nullable = false)
 	private Integer semester;
 		
+	@ManyToOne
+	@JoinColumn(name = "department_id", nullable = false)
+	private DepartmentEntity department;
+	
 	public SubjectEntity() {
 		
 	}
 
-	public SubjectEntity(Long subjectId, String name, String code, SubjectType type, Integer semester) {
+	public SubjectEntity(Long subjectId, String name, String code, SubjectType type, Integer semester, DepartmentEntity department) {
 		super();
 		this.subjectId = subjectId;
 		this.name = name;
 		this.code = code;
 		this.type = type;
 		this.semester = semester;
+		this.department = department;
 	}
 
 	public Long getSubjectId() {
@@ -83,6 +90,14 @@ public class SubjectEntity {
 
 	public void setSemester(Integer semester) {
 		this.semester = semester;
+	}
+
+	public DepartmentEntity getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(DepartmentEntity department) {
+		this.department = department;
 	}
 
 }

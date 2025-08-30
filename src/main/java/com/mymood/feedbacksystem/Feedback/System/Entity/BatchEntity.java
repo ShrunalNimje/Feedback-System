@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,14 +20,27 @@ public class BatchEntity {
 	@Column(unique = true, nullable = false)
 	private String name;
 	
+	@ManyToOne
+	@JoinColumn(name = "section_id", nullable = false)
+	private SectionEntity section;
+	
 	public BatchEntity() {
 		
 	}
 
-	public BatchEntity(Long batchId, String name) {
+	public BatchEntity(Long batchId, String name, SectionEntity section) {
 		super();
 		this.batchId = batchId;
 		this.name = name;
+		this.section = section;
+	}
+
+	public SectionEntity getSection() {
+		return section;
+	}
+
+	public void setSection(SectionEntity section) {
+		this.section = section;
 	}
 
 	public Long getBatchId() {
