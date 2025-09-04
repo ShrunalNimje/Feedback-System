@@ -48,8 +48,11 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
         SectionEntity section = sectionRepository.findById(create.getSectionId())
                 .orElseThrow(() -> new RuntimeException("Section not found!"));
         
-        BatchEntity batch = batchRepository.findById(create.getBatchId())
-                .orElseThrow(() -> new RuntimeException("Batch not found!"));
+        BatchEntity batch = null;
+        if (create.getBatchId() != null) {
+            batch = batchRepository.findById(create.getBatchId())
+                    .orElseThrow(() -> new RuntimeException("Batch not found!"));
+        }
 
         TeacherSubjectAssignmentEntity assignment = new TeacherSubjectAssignmentEntity();
         assignment.setTeacher(teacher);
@@ -66,7 +69,7 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
                 saved.getTeacher().getTeacherId(),
                 saved.getSubject().getSubjectId(),
                 saved.getSection().getSectionId(),
-                saved.getBatch().getBatchId(),
+                saved.getBatch() != null ? saved.getBatch().getBatchId() : null,
                 saved.getYear(),
                 saved.getSemester());
 	}
@@ -82,7 +85,7 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
 				assignment.getTeacher().getTeacherId(),
 				assignment.getSubject().getSubjectId(),
 				assignment.getSection().getSectionId(),
-				assignment.getBatch().getBatchId(),
+				assignment.getBatch() != null ? assignment.getBatch().getBatchId() : null,
 				assignment.getYear(),
 				assignment.getSemester());
 	}
@@ -97,7 +100,7 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
         				assignment.getTeacher().getTeacherId(),
         				assignment.getSubject().getSubjectId(),
         				assignment.getSection().getSectionId(),
-        				assignment.getBatch().getBatchId(),
+        				assignment.getBatch() != null ? assignment.getBatch().getBatchId() : null,
         				assignment.getYear(),
         				assignment.getSemester()))
                 .collect(Collectors.toList());
@@ -118,8 +121,11 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
         SectionEntity section = sectionRepository.findById(update.getSectionId())
                 .orElseThrow(() -> new RuntimeException("Section not found!"));
         
-        BatchEntity batch = batchRepository.findById(update.getBatchId())
-                .orElseThrow(() -> new RuntimeException("Batch not found!"));
+        BatchEntity batch = null;
+        if (update.getBatchId() != null) {
+            batch = batchRepository.findById(update.getBatchId())
+                    .orElseThrow(() -> new RuntimeException("Batch not found!"));
+        }
 
         assignment.setTeacher(teacher);
         assignment.setSubject(subject);
@@ -135,7 +141,7 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
         		updated.getTeacher().getTeacherId(),
         		updated.getSubject().getSubjectId(),
         		updated.getSection().getSectionId(),
-        		updated.getBatch().getBatchId(),
+        		updated.getBatch() != null ? updated.getBatch().getBatchId() : null,
         		updated.getYear(),
         		updated.getSemester());
 	}
