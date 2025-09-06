@@ -1,0 +1,43 @@
+package com.mymood.feedbacksystem.Feedback.System.Controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.mymood.feedbacksystem.Feedback.System.DTO.Request.FeedbackRequestDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Response.FeedbackResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.Service.FeedbackService;
+
+@RestController
+public class FeedbackController {
+
+	@Autowired
+    private FeedbackService feedbackService;
+
+    @PostMapping("/feedback")
+    public ResponseEntity<String> submitFeedback(@RequestBody FeedbackRequestDTO request) {
+        FeedbackResponseDTO saved = feedbackService.submitFeedback(request);
+        return ResponseEntity.ok("Feedback submitted successfully with id = " + saved.getFeedbackId());
+    }
+
+    @GetMapping("/feedback/student/{studentId}")
+    public List<FeedbackResponseDTO> getFeedbackByStudent(@PathVariable Long studentId) {
+        return feedbackService.getFeedbackByStudent(studentId);
+    }
+
+    @GetMapping("/feedback/teacher/{teacherId}")
+    public List<FeedbackResponseDTO> getFeedbackByTeacher(@PathVariable Long teacherId) {
+        return feedbackService.getFeedbackByTeacher(teacherId);
+    }
+
+    @GetMapping("/feedback/subject/{subjectId}")
+    public List<FeedbackResponseDTO> getFeedbackBySubject(@PathVariable Long subjectId) {
+        return feedbackService.getFeedbackBySubject(subjectId);
+    }
+}
