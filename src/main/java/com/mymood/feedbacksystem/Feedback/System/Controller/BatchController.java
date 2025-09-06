@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +34,7 @@ public class BatchController {
 		return ResponseEntity.ok("Batch deleted successfully with id = " + batchId);
 	}
 	
-	@PostMapping("/batch/{batchId}")
+	@PutMapping("/batch/{batchId}")
 	public ResponseEntity<String> updateBatch(@RequestBody BatchRequestDTO update, @PathVariable Long batchId) {
 		batchService.updateBatch(batchId, update);
 		return ResponseEntity.ok("Batch updated successfully with id = " + batchId);
