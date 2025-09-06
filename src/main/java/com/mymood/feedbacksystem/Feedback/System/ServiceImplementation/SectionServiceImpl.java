@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.SectionRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.SectionResponseDTO;
@@ -13,6 +14,7 @@ import com.mymood.feedbacksystem.Feedback.System.Repository.BranchRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.SectionRepository;
 import com.mymood.feedbacksystem.Feedback.System.Service.SectionService;
 
+@Service
 public class SectionServiceImpl implements SectionService{
 
 	@Autowired

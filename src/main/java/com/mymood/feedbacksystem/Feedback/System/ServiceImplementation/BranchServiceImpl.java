@@ -56,8 +56,13 @@ public class BranchServiceImpl implements BranchService{
 		.orElseThrow(() -> new RuntimeException("Branch not found!"));
 		
 		BranchEntity existingBranch = new BranchEntity();
-		existingBranch.setName(update.getName());
-		existingBranch.setDepartment(dept);
+		
+		if(update.getName() != null) {
+			existingBranch.setName(update.getName());
+		}
+		if(update.getDepartmentId() != null) {
+			existingBranch.setDepartment(dept);
+		}
 		
 		BranchEntity saved = branchRepository.save(existingBranch);
 		return new BranchResponseDTO(id, saved.getName(), dept.getName());	

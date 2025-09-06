@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +34,7 @@ public class DepartmentController {
 		return ResponseEntity.ok("Department deleted successfully with id = " + departmentId);
 	}
 	
-	@PostMapping("/department/{departmentId}")
+	@PutMapping("/department/{departmentId}")
 	public ResponseEntity<String> updateDepartment(@RequestBody DepartmentRequestDTO update, @PathVariable Long departmentId) {
 		departmentService.updateDepartment(departmentId, update);
 		return ResponseEntity.ok("Department updated successfully with id = " + departmentId);

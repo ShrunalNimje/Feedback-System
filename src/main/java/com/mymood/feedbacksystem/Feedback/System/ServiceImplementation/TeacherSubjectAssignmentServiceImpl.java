@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.TeacherSubjectAssignmentRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.TeacherSubjectAssignmentResponseDTO;
@@ -19,6 +20,7 @@ import com.mymood.feedbacksystem.Feedback.System.Repository.TeacherRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.TeacherSubjectAssignmentRepository;
 import com.mymood.feedbacksystem.Feedback.System.Service.TeacherSubjectAssignmentService;
 
+@Service
 public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssignmentService{
 
 	@Autowired
