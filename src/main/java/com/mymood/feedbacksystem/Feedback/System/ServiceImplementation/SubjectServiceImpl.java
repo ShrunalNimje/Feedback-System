@@ -66,17 +66,28 @@ public class SubjectServiceImpl implements SubjectService{
 
 	@Override
 	public SubjectResponseDTO updateSubject(Long id, SubjectRequestDTO update) {
-
-		DepartmentEntity department = departmentRepository.findById(update.getDepartmentId())
-                .orElseThrow(() -> new RuntimeException("Department not found!"));
 		
 		SubjectEntity subject = subjectRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Subject not found!"));
 
-		subject.setName(update.getSubjectName());
-        subject.setCode(update.getSubjectCode());
-        subject.setType(update.getSubjectType()); 
-        subject.setDepartment(department);
+		if(update.getSubjectType() != null) {
+	        subject.setType(update.getSubjectType()); 
+		}
+		
+		if(update.getSubjectName() != null) {
+			subject.setName(update.getSubjectName());
+		}
+		
+		if(update.getSubjectCode() != null) {
+	        subject.setCode(update.getSubjectCode());
+		}
+		
+		if(update.getDepartmentId() != null) {
+			DepartmentEntity department = departmentRepository.findById(update.getDepartmentId())
+	                .orElseThrow(() -> new RuntimeException("Department not found!"));
+			
+	        subject.setDepartment(department);
+		}
 
         SubjectEntity saved = subjectRepository.save(subject);
 

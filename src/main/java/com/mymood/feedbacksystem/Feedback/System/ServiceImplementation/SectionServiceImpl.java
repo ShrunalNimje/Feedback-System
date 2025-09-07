@@ -48,14 +48,19 @@ public class SectionServiceImpl implements SectionService{
 	@Override
 	public SectionResponseDTO updateSection(Long id, SectionRequestDTO update) {
 		
-		BranchEntity branch = branchRepository.findById(update.getBranchId())
-				.orElseThrow(() -> new RuntimeException("Branch not found!"));
-		
 		SectionEntity sec = sectionRepository.findById(id)
 		.orElseThrow(() -> new RuntimeException("Section not found!"));
 		
-		sec.setBranch(branch);
-		sec.setName(update.getName());
+		if(update.getName() != null) {
+			sec.setName(update.getName());
+		}
+		
+		if(update.getBranchId() != null) {
+			BranchEntity branch = branchRepository.findById(update.getBranchId())
+					.orElseThrow(() -> new RuntimeException("Branch not found!"));
+			
+			sec.setBranch(branch);
+		}
 		
 		SectionEntity saved = sectionRepository.save(sec);
 		return new SectionResponseDTO(id, saved.getName(), saved.getBranch().getName());

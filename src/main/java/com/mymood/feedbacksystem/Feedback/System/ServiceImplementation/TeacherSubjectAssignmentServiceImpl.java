@@ -114,27 +114,41 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
 		TeacherSubjectAssignmentEntity assignment = teacherSubjectAssignmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Assignment not found!"));
 
-        TeacherEntity teacher = teacherRepository.findById(update.getTeacherId())
-                .orElseThrow(() -> new RuntimeException("Teacher not found!"));
+		if(update.getTeacherId() != null) {
+			TeacherEntity teacher = teacherRepository.findById(update.getTeacherId())
+	                .orElseThrow(() -> new RuntimeException("Teacher not found!"));
+	        
+			assignment.setTeacher(teacher);
+		}
         
-        SubjectEntity subject = subjectRepository.findById(update.getSubjectId())
-                .orElseThrow(() -> new RuntimeException("Subject not found!"));
+		if(update.getSubjectId() != null) {
+			SubjectEntity subject = subjectRepository.findById(update.getSubjectId())
+	                .orElseThrow(() -> new RuntimeException("Subject not found!"));
+	        
+			assignment.setSubject(subject);
+		}
         
-        SectionEntity section = sectionRepository.findById(update.getSectionId())
-                .orElseThrow(() -> new RuntimeException("Section not found!"));
-        
+		if(update.getSectionId() != null) {
+			SectionEntity section = sectionRepository.findById(update.getSectionId())
+	                .orElseThrow(() -> new RuntimeException("Section not found!"));
+	        
+			assignment.setSection(section);
+		}
+  
         BatchEntity batch = null;
         if (update.getBatchId() != null) {
             batch = batchRepository.findById(update.getBatchId())
                     .orElseThrow(() -> new RuntimeException("Batch not found!"));
         }
-
-        assignment.setTeacher(teacher);
-        assignment.setSubject(subject);
-        assignment.setSection(section);
         assignment.setBatch(batch);
-        assignment.setYear(update.getYear());
-        assignment.setSemester(update.getSemester());
+        
+        if (update.getYear() != null) {
+            assignment.setYear(update.getYear());
+        }    
+        
+        if (update.getSemester() != null) {
+            assignment.setSemester(update.getSemester());
+        } 
 
         TeacherSubjectAssignmentEntity updated = teacherSubjectAssignmentRepository.save(assignment);
 

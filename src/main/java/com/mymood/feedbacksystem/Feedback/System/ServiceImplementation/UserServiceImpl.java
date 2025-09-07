@@ -66,9 +66,17 @@ public class UserServiceImpl implements UserService{
 		UserEntity user = userRepository.findById(id)
 	            .orElseThrow(() -> new RuntimeException("User not found!"));
 
-	    user.setUsername(update.getUsername());
-	    user.setPassword(update.getPassword());
-	    user.setRole(update.getRole());
+		if(update.getPassword() != null) {
+		    user.setPassword(update.getPassword());
+		}
+		
+		if(update.getRole() != null) {
+		    user.setRole(update.getRole());
+		}
+		
+		if(update.getUsername() != null) {
+		    user.setUsername(update.getUsername());
+		}
 
 	    UserEntity saved = userRepository.save(user);
         return new UserResponseDTO(saved.getUserId(), saved.getUsername(), saved.getRole());

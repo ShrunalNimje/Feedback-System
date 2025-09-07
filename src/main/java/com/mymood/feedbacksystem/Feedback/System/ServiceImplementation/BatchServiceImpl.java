@@ -51,14 +51,19 @@ public class BatchServiceImpl implements BatchService{
 		BatchEntity batch = batchRepository.findById(id).orElseThrow(
 				() -> new RuntimeException("Batch not found!"));
 		
-		SectionEntity section = sectionRepository.findById(update.getSectionId())
-				.orElseThrow(() -> new RuntimeException("Section not found!"));
+		if(update.getName() != null) {
+			batch.setName(update.getName());
+		}
 		
-		batch.setName(update.getName());
-		batch.setSection(section);
+		if(update.getSectionId() != null) {
+			SectionEntity section = sectionRepository.findById(update.getSectionId())
+					.orElseThrow(() -> new RuntimeException("Section not found!"));
+			
+			batch.setSection(section);
+		}
 		
 		BatchEntity saved = batchRepository.save(batch);
-		return new BatchResponseDTO(saved.getBatchId(), saved.getName(), section.getName());
+		return new BatchResponseDTO(id, saved.getName(), saved.getSection().getName());
 	}
 
 	@Override

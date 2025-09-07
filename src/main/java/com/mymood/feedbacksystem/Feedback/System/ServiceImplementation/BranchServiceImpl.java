@@ -49,23 +49,22 @@ public class BranchServiceImpl implements BranchService{
 	@Override
 	public BranchResponseDTO updateBranch(Long id, BranchRequestDTO update) {
 		
-		DepartmentEntity dept = departmentRepository.findById(update.getDepartmentId())
-				.orElseThrow(() -> new RuntimeException("Department not found!"));
-		
-		branchRepository.findById(id)
+		BranchEntity existingBranch = branchRepository.findById(id)
 		.orElseThrow(() -> new RuntimeException("Branch not found!"));
-		
-		BranchEntity existingBranch = new BranchEntity();
 		
 		if(update.getName() != null) {
 			existingBranch.setName(update.getName());
 		}
+		
 		if(update.getDepartmentId() != null) {
+			DepartmentEntity dept = departmentRepository.findById(update.getDepartmentId())
+					.orElseThrow(() -> new RuntimeException("Department not found!"));
+			
 			existingBranch.setDepartment(dept);
 		}
 		
 		BranchEntity saved = branchRepository.save(existingBranch);
-		return new BranchResponseDTO(id, saved.getName(), dept.getName());	
+		return new BranchResponseDTO(id, saved.getName(), saved.getDepartment().getName());	
 		
 	}
 

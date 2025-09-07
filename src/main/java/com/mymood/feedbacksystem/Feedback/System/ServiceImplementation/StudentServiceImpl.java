@@ -31,7 +31,7 @@ public class StudentServiceImpl implements StudentService{
 
         StudentEntity student = new StudentEntity();
         student.setName(create.getName());
-        student.setEnrollmentId(create.getRollNo()); 
+        student.setRollNo(create.getRollNo()); 
         student.setEmail(create.getEmail());
         student.setBatch(batch);
 
@@ -40,7 +40,7 @@ public class StudentServiceImpl implements StudentService{
         return new StudentResponseDTO(
         		saved.getStudentId(),
         		saved.getName(),
-        		saved.getEnrollmentId(),
+        		saved.getRollNo(),
         		saved.getEmail(),
         		saved.getBatch().getName()
         );
@@ -55,7 +55,7 @@ public class StudentServiceImpl implements StudentService{
 		return new StudentResponseDTO(
                 student.getStudentId(),
                 student.getName(),
-                student.getEnrollmentId(),
+                student.getRollNo(),
                 student.getEmail(),
                 student.getBatch().getName()
         );
@@ -68,7 +68,7 @@ public class StudentServiceImpl implements StudentService{
                 .map(student -> new StudentResponseDTO(
                         student.getStudentId(),
                         student.getName(),
-                        student.getEnrollmentId(),
+                        student.getRollNo(),
                         student.getEmail(),
                         student.getBatch().getName()
                 ))
@@ -80,21 +80,32 @@ public class StudentServiceImpl implements StudentService{
 		
 		StudentEntity student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found!"));
-
-        BatchEntity batch = batchRepository.findById(update.getBatchId())
-                .orElseThrow(() -> new RuntimeException("Batch not found!"));
-
-        student.setName(update.getName());
-        student.setEnrollmentId(update.getRollNo());
-        student.setEmail(update.getEmail());
-        student.setBatch(batch);
+		
+		if(update.getName() != null) {
+			student.setName(update.getName());
+		}
+		
+		if(update.getRollNo() != null) {
+			student.setRollNo(update.getRollNo());
+		}
+		
+		if(update.getEmail() != null) {
+	        student.setEmail(update.getEmail());
+		}
+		
+		if(update.getBatchId() != null) {
+			BatchEntity batch = batchRepository.findById(update.getBatchId())
+	                .orElseThrow(() -> new RuntimeException("Batch not found!"));
+			
+	        student.setBatch(batch);
+		}
 
         StudentEntity saved = studentRepository.save(student);
 
         return new StudentResponseDTO(
         		saved.getStudentId(),
         		saved.getName(),
-        		saved.getEnrollmentId(),
+        		saved.getRollNo(),
         		saved.getEmail(),
         		saved.getBatch().getName()
         );

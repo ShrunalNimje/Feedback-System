@@ -66,12 +66,20 @@ public class TeacherServiceImpl implements TeacherService{
 		TeacherEntity teacher = teacherRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Teacher not found!"));
 
-        DepartmentEntity department = departmentRepository.findById(update.getDepartmentId())
-                .orElseThrow(() -> new RuntimeException("Department not found!"));
-
-        teacher.setName(update.getName());
-        teacher.setEmail(update.getEmail());
-        teacher.setDepartment(department);
+		if(update.getName() != null) {
+			teacher.setName(update.getName());
+		}
+        
+		if(update.getEmail() != null) {
+	        teacher.setEmail(update.getEmail());
+		}
+		
+		if(update.getDepartmentId() != null) {
+			DepartmentEntity department = departmentRepository.findById(update.getDepartmentId())
+	                .orElseThrow(() -> new RuntimeException("Department not found!"));
+	        
+	        teacher.setDepartment(department);		
+        }
 
         TeacherEntity saved = teacherRepository.save(teacher);
         
