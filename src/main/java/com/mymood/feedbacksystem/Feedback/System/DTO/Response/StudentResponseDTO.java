@@ -4,7 +4,7 @@ public class StudentResponseDTO {
 
     private Long studentId;
     private String name;
-    private String rollNo;
+    private Integer rollNo;
     private String email;
     private String batchName;
 
@@ -12,7 +12,7 @@ public class StudentResponseDTO {
     	
     }
 
-    public StudentResponseDTO(Long studentId, String name, String rollNo, String email, String batchName) {
+    public StudentResponseDTO(Long studentId, String name, Integer rollNo, String email, String batchName) {
         this.studentId = studentId;
         this.name = name;
         this.rollNo = rollNo;
@@ -36,11 +36,11 @@ public class StudentResponseDTO {
         this.name = name;
     }
 
-    public String getRollNo() {
+    public Integer getRollNo() {
         return rollNo;
     }
 
-    public void setRollNo(String rollNo) {
+    public void setRollNo(Integer rollNo) {
         this.rollNo = rollNo;
     }
 

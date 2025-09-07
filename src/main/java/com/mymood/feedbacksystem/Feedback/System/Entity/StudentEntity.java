@@ -22,6 +22,9 @@ public class StudentEntity {
 	@Column(unique = true, nullable = false)
 	private String enrollmentId;
 	
+	@Column(unique = true, nullable = false)
+	private Integer rollNo;
+
 	@Column(unique = false, nullable = false)
 	private String name;
 	
@@ -67,7 +70,7 @@ public class StudentEntity {
 
 	public StudentEntity(Long studentId, String enrollmentId, String name, String email, String password, Integer year, Integer semester,
 			Float attendancePercentage, DepartmentEntity department, BranchEntity branch, SectionEntity section,
-			BatchEntity batch, UserEntity user) {
+			BatchEntity batch, UserEntity user, Integer roleNo) {
 		super();
 		this.studentId = studentId;
 		this.enrollmentId = enrollmentId;
@@ -82,6 +85,7 @@ public class StudentEntity {
 		this.section = section;
 		this.batch = batch;
 		this.user = user;
+		this.rollNo = roleNo;
 	}
 
 	public Long getStudentId() {
@@ -98,6 +102,14 @@ public class StudentEntity {
 
 	public void setEnrollmentId(String enrollmentId) {
 		this.enrollmentId = enrollmentId;
+	}
+
+	public Integer getRollNo() {
+		return rollNo;
+	}
+
+	public void setRollNo(Integer rollNo) {
+		this.rollNo = rollNo;
 	}
 
 	public String getName() {

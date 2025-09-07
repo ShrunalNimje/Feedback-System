@@ -3,22 +3,32 @@ package com.mymood.feedbacksystem.Feedback.System.DTO.Request;
 public class StudentRequestDTO {
 
     private String name;
-    private String rollNo;
+    private Integer rollNo;
     private String email;
     private Long batchId;
+    private String enrollmentId;
 
     public StudentRequestDTO() {
     	
     }
 
-    public StudentRequestDTO(String name, String rollNo, String email, Long batchId) {
+    public StudentRequestDTO(String name, Integer rollNo, String email, Long batchId, String enrollmentId) {
         this.name = name;
         this.rollNo = rollNo;
         this.email = email;
         this.batchId = batchId;
+        this.enrollmentId = enrollmentId;
     }
 
-    public String getName() {
+    public String getEnrollmentId() {
+		return enrollmentId;
+	}
+
+	public void setEnrollmentId(String enrollmentId) {
+		this.enrollmentId = enrollmentId;
+	}
+
+	public String getName() {
         return name;
     }
 
@@ -26,11 +36,11 @@ public class StudentRequestDTO {
         this.name = name;
     }
 
-    public String getRollNo() {
+    public Integer getRollNo() {
         return rollNo;
     }
 
-    public void setRollNo(String rollNo) {
+    public void setRollNo(Integer rollNo) {
         this.rollNo = rollNo;
     }
 
