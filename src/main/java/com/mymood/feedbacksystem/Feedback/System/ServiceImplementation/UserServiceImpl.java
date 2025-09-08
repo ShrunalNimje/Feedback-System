@@ -4,19 +4,32 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import com.mymood.feedbacksystem.Feedback.System.DTO.Request.LoginRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.UserRequestDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Response.LoginResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.UserResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.Entity.UserEntity;
 import com.mymood.feedbacksystem.Feedback.System.Repository.UserRepository;
+import com.mymood.feedbacksystem.Feedback.System.Security.JWTService;
 import com.mymood.feedbacksystem.Feedback.System.Service.UserService;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	AuthenticationManager authManager;
+	
+	@Autowired
+	JWTService jwtService;
 	
 	@Override
 	public UserResponseDTO createUser(UserRequestDTO create) {
@@ -89,6 +102,19 @@ public class UserServiceImpl implements UserService{
 				() -> new RuntimeException("User not found!"));
 		
 		userRepository.deleteById(id);	
+	}
+
+	@Override
+	public LoginResponseDTO authenticate(LoginRequestDTO request) {
+		Authentication authentication = authManager.authenticate(
+				new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())); 
+		
+		if(authentication.isAuthenticated()) {
+			String token = jwtService.generateToken(request.getUsername());
+			return new LoginResponseDTO(token);
+		}
+		
+		throw new BadCredentialsException("Invalid username and password!");
 	}
 
 }
