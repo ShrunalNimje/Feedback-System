@@ -2,6 +2,8 @@ package com.mymood.feedbacksystem.Feedback.System.DTO.Request;
 
 public class StudentRequestDTO {
 
+	private String username;
+    private String password;
     private String name;
     private Integer rollNo;
     private String email;
@@ -12,12 +14,15 @@ public class StudentRequestDTO {
     	
     }
 
-    public StudentRequestDTO(String name, Integer rollNo, String email, Long batchId, String enrollmentId) {
+    public StudentRequestDTO(String name, Integer rollNo, String email, Long batchId, 
+    		String enrollmentId, String username, String password) {
         this.name = name;
         this.rollNo = rollNo;
         this.email = email;
         this.batchId = batchId;
         this.enrollmentId = enrollmentId;
+        this.username = username;
+        this.password = password;
     }
 
     public String getEnrollmentId() {
@@ -59,4 +64,21 @@ public class StudentRequestDTO {
     public void setBatchId(Long batchId) {
         this.batchId = batchId;
     }
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+    
 }

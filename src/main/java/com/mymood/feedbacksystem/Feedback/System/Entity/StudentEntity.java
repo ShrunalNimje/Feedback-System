@@ -32,9 +32,6 @@ public class StudentEntity {
 	@Email(message = "Mail Id should be valid!")
 	private String email;
 	
-	@Column(unique = false, nullable = false)
-	private String password;
-	
 	@Column(nullable = false)
 	private Integer year;
 	
@@ -68,7 +65,7 @@ public class StudentEntity {
 		
 	}
 
-	public StudentEntity(Long studentId, String enrollmentId, String name, String email, String password, Integer year, Integer semester,
+	public StudentEntity(Long studentId, String enrollmentId, String name, String email, Integer year, Integer semester,
 			Float attendancePercentage, DepartmentEntity department, BranchEntity branch, SectionEntity section,
 			BatchEntity batch, UserEntity user, Integer roleNo) {
 		super();
@@ -76,7 +73,6 @@ public class StudentEntity {
 		this.enrollmentId = enrollmentId;
 		this.name = name;
 		this.email = email;
-		this.password = password;
 		this.year = year;
 		this.semester = semester;
 		this.attendancePercentage = attendancePercentage;
@@ -126,14 +122,6 @@ public class StudentEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public Integer getYear() {
