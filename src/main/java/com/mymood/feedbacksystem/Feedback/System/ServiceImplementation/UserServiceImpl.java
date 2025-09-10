@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.LoginRequestDTO;
@@ -31,12 +32,15 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	JWTService jwtService;
 	
+	@Autowired
+	PasswordEncoder passwordEncoder;
+	
 	@Override
 	public UserResponseDTO createUser(UserRequestDTO create) {
 		
 		UserEntity user = new UserEntity();
         user.setUsername(create.getUsername());
-        user.setPassword(create.getPassword());
+        user.setPassword(passwordEncoder.encode(create.getPassword()));
         user.setRole(create.getRole());
 
         UserEntity saved = userRepository.save(user);
@@ -80,7 +84,7 @@ public class UserServiceImpl implements UserService {
 	            .orElseThrow(() -> new RuntimeException("User not found!"));
 
 		if(update.getPassword() != null) {
-		    user.setPassword(update.getPassword());
+	        user.setPassword(passwordEncoder.encode(update.getPassword()));
 		}
 		
 		if(update.getRole() != null) {

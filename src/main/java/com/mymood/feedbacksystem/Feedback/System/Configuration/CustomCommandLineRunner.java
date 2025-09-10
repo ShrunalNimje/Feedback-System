@@ -2,6 +2,7 @@ package com.mymood.feedbacksystem.Feedback.System.Configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.mymood.feedbacksystem.Feedback.System.Entity.*;
@@ -40,6 +41,9 @@ public class CustomCommandLineRunner implements CommandLineRunner{
     @Autowired
     private UserRepository userRepository;
     
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 	@Override
 	public void run(String... args) throws Exception {
 		
@@ -72,11 +76,23 @@ public class CustomCommandLineRunner implements CommandLineRunner{
         batch.setSection(section);
         batchRepository.save(batch);
 
-        UserEntity user = new UserEntity();
-        user.setUsername("John Doe");
-        user.setPassword("password");
-        user.setRole(Role.STUDENT);
-        userRepository.save(user);
+        UserEntity admin = new UserEntity();
+        admin.setUsername("admin");
+        admin.setPassword(passwordEncoder.encode("admin123"));
+        admin.setRole(Role.ADMIN);
+        userRepository.save(admin);
+        
+        UserEntity teacher1 = new UserEntity();
+        teacher1.setUsername("teacher");
+        teacher1.setPassword(passwordEncoder.encode("teacher123"));
+        teacher1.setRole(Role.TEACHER);
+        userRepository.save(teacher1);
+        
+        UserEntity student1 = new UserEntity();
+        student1.setUsername("student");
+        student1.setPassword(passwordEncoder.encode("student123"));
+        student1.setRole(Role.STUDENT);
+        userRepository.save(student1);
         
         StudentEntity student = new StudentEntity();
         student.setName("John Doe");
@@ -89,9 +105,9 @@ public class CustomCommandLineRunner implements CommandLineRunner{
         student.setSection(section);
         student.setSemester(5);
         student.setYear(2023);
-        student.setPassword("password123");
-        student.setUser(user);
+        student.setUser(student1);
         student.setRollNo(54);
+        student.setUser(student1);
         studentRepository.save(student);
 
 
@@ -99,7 +115,7 @@ public class CustomCommandLineRunner implements CommandLineRunner{
         teacher.setName("Dr. Smith");
         teacher.setEmail("smith@example.com");
         teacher.setDepartment(dept);
-        teacher.setPassword("teacher123");
+        teacher.setUser(teacher1);
         teacherRepository.save(teacher);
 
         SubjectEntity subject = new SubjectEntity();
