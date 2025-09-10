@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.TeacherSubjectAssignmentRequestDTO;
@@ -17,34 +18,35 @@ import com.mymood.feedbacksystem.Feedback.System.DTO.Response.TeacherSubjectAssi
 import com.mymood.feedbacksystem.Feedback.System.Service.TeacherSubjectAssignmentService;
 
 @RestController
+@RequestMapping("/api/admin/assignments")
 public class TeacherSubjectAssignmentController {
 
 	@Autowired
     private TeacherSubjectAssignmentService assignmentService;
 
-    @PostMapping("/assignment")
+    @PostMapping()
     public ResponseEntity<String> createAssignment(@RequestBody TeacherSubjectAssignmentRequestDTO request) {
         TeacherSubjectAssignmentResponseDTO saved = assignmentService.createAssignment(request);
         return ResponseEntity.ok("Assignment created successfully with id = " + saved.getTeacherSubjectAssignmentId());
     }
 
-    @GetMapping("/assignment/{assignmentId}")
+    @GetMapping("/{assignmentId}")
     public TeacherSubjectAssignmentResponseDTO getAssignment(@PathVariable Long assignmentId) {
         return assignmentService.getAssignment(assignmentId);
     }
 
-    @GetMapping("/assignment")
+    @GetMapping()
     public List<TeacherSubjectAssignmentResponseDTO> getAllAssignments() {
         return assignmentService.getAllAssignment();
     }
 
-    @PutMapping("/assignment/{assignmentId}")
+    @PutMapping("/{assignmentId}")
     public ResponseEntity<String> updateAssignment(@PathVariable Long assignmentId, @RequestBody TeacherSubjectAssignmentRequestDTO update) {
         assignmentService.updateAssignment(assignmentId, update);
         return ResponseEntity.ok("Assignment updated successfully with id = " + assignmentId);
     }
 
-    @DeleteMapping("/assignment/{assignmentId}")
+    @DeleteMapping("/{assignmentId}")
     public ResponseEntity<String> deleteAssignment(@PathVariable Long assignmentId) {
         assignmentService.deleteAssignment(assignmentId);
         return ResponseEntity.ok("Assignment deleted successfully with id = " + assignmentId);

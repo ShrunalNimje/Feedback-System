@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.BatchRequestDTO;
@@ -17,35 +18,36 @@ import com.mymood.feedbacksystem.Feedback.System.DTO.Response.BatchResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.BatchService;
 
 @RestController
+@RequestMapping("/api/admin/batches")
 public class BatchController {
 
 	@Autowired
 	BatchService batchService;
 	
-	@PostMapping("/batch")
+	@PostMapping()
 	public ResponseEntity<String> createBatch(@RequestBody BatchRequestDTO create) {
 		BatchResponseDTO saved =  batchService.createBatch(create);
 		return ResponseEntity.ok("Batch created successfully with id = " + saved.getBatchId());
 	}
 	
-	@DeleteMapping("/batch/{batchId}")
+	@DeleteMapping("/{batchId}")
 	public ResponseEntity<String> deleteBatch(@PathVariable Long batchId) {
 		batchService.deleteBatch(batchId);
 		return ResponseEntity.ok("Batch deleted successfully with id = " + batchId);
 	}
 	
-	@PutMapping("/batch/{batchId}")
+	@PutMapping("/{batchId}")
 	public ResponseEntity<String> updateBatch(@RequestBody BatchRequestDTO update, @PathVariable Long batchId) {
 		batchService.updateBatch(batchId, update);
 		return ResponseEntity.ok("Batch updated successfully with id = " + batchId);
 	}
 	
-	@GetMapping("/batch/{batchId}")
+	@GetMapping("/{batchId}")
 	public BatchResponseDTO getBatch(@PathVariable Long batchId) {
 		return batchService.getBatch(batchId);
 	}
 	
-	@GetMapping("/batch")
+	@GetMapping()
 	public List<BatchResponseDTO> getAllBatch() {
 		return batchService.getAllBatch();
 	}
