@@ -33,10 +33,13 @@ public class SecurityConfiguration {
 		
 			.authorizeHttpRequests(auth -> auth
 					.requestMatchers("/api/auth/**").permitAll()
-		            .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
-		            .requestMatchers("/api/teacher/**").hasAuthority("TEACHER")
-		            .requestMatchers("/api/student/**").hasAuthority("STUDENT")
-				.anyRequest().authenticated()
+		            .requestMatchers("/api/admin/**").hasRole("ADMIN")
+		            .requestMatchers("/api/teacher/**").hasRole("TEACHER")
+		            .requestMatchers("/api/student/**").hasRole("STUDENT")
+		            .requestMatchers("/v3/api-docs/**", 
+		                    "/swagger-ui/**", 
+		                    "/swagger-ui.html").permitAll()
+		            .anyRequest().authenticated()
 				)
 			
 			.sessionManagement(session -> session
