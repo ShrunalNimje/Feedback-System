@@ -24,26 +24,26 @@ public class FeedbackController {
     private FeedbackService feedbackService;
 
     @PostMapping("/submit")
-    @PreAuthorize("hasAuthority('STUDENT')")
+    @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<String> submitFeedback(@RequestBody FeedbackRequestDTO request) {
         FeedbackResponseDTO saved = feedbackService.submitFeedback(request);
         return ResponseEntity.ok("Feedback submitted successfully with id = " + saved.getFeedbackId());
     }
 
     @GetMapping("/student/{studentId}")
-    @PreAuthorize("hasAnyAuthority('TEACHER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
     public List<FeedbackResponseDTO> getFeedbackByStudent(@PathVariable Long studentId) {
         return feedbackService.getFeedbackByStudent(studentId);
     }
 
     @GetMapping("/teacher/{teacherId}")
-    @PreAuthorize("hasAnyAuthority('TEACHER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
     public List<FeedbackResponseDTO> getFeedbackByTeacher(@PathVariable Long teacherId) {
         return feedbackService.getFeedbackByTeacher(teacherId);
     }
 
     @GetMapping("/subject/{subjectId}")
-    @PreAuthorize("hasAnyAuthority('TEACHER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
     public List<FeedbackResponseDTO> getFeedbackBySubject(@PathVariable Long subjectId) {
         return feedbackService.getFeedbackBySubject(subjectId);
     }

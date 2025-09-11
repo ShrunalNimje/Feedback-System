@@ -1,5 +1,6 @@
 package com.mymood.feedbacksystem.Feedback.System.ServiceImplementation;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,7 @@ public class AuditLogServiceImpl implements AuditLogService{
         log.setUser(user);
         log.setAction(action);
         log.setIpAddress(ipAddress);
+        log.setTimestamp(LocalDateTime.now());
 
         auditLogRepository.save(log);
 	}

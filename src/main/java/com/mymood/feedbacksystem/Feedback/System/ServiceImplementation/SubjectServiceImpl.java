@@ -33,6 +33,7 @@ public class SubjectServiceImpl implements SubjectService{
         subject.setName(create.getSubjectName());
         subject.setCode(create.getSubjectCode());
         subject.setType(create.getSubjectType()); 
+        subject.setSemester(create.getSemester());
         subject.setDepartment(department);
 
         SubjectEntity saved = subjectRepository.save(subject);

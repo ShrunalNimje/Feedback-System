@@ -52,7 +52,13 @@ public class StudentServiceImpl implements StudentService{
         student.setBatch(batch);
         student.setEnrollmentId(create.getEnrollmentId());
         student.setUser(user);
-
+        student.setAttendancePercentage(create.getAttendance());
+        student.setSection(batch.getSection());
+        student.setBranch(batch.getSection().getBranch());
+        student.setDepartment(batch.getSection().getBranch().getDepartment());
+        student.setSemester(create.getSemester());
+        student.setYear(create.getYear());
+        
         StudentEntity saved = studentRepository.save(student);
         
         return new StudentResponseDTO(
