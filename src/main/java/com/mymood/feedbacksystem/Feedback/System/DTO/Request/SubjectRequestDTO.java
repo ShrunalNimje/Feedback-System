@@ -8,19 +8,30 @@ public class SubjectRequestDTO {
 	 private String subjectName;
 	 private SubjectType subjectType;
 	 private Long departmentId;
+	 private Integer semester;
 
 	 public SubjectRequestDTO() {
 		 
 	 }
 
-	 public SubjectRequestDTO(String subjectCode, String subjectName, SubjectType subjectType, Long departmentId) {
+	 public SubjectRequestDTO(String subjectCode, String subjectName, SubjectType subjectType, 
+			 Long departmentId, Integer semester) {
 	     this.subjectCode = subjectCode;
 	     this.subjectName = subjectName;
 	     this.subjectType = subjectType;
 	     this.departmentId = departmentId;
+	     this.semester = semester;
 	 }
 	
-	 public String getSubjectCode() {
+	 public Integer getSemester() {
+		return semester;
+	}
+
+	public void setSemester(Integer semester) {
+		this.semester = semester;
+	}
+
+	public String getSubjectCode() {
 	     return subjectCode;
 	 }
 	
