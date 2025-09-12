@@ -7,5 +7,7 @@ import com.mymood.feedbacksystem.Feedback.System.Entity.BatchEntity;
 
 @Repository
 public interface BatchRepository extends JpaRepository<BatchEntity, Long>{
+
+	boolean existsByName(String name);
 	
 }

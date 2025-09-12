@@ -7,5 +7,7 @@ import com.mymood.feedbacksystem.Feedback.System.Entity.DepartmentEntity;
 
 @Repository
 public interface DepartmentRepository extends JpaRepository<DepartmentEntity, Long>{
+
+	boolean existsByName(String name);
 	
 }

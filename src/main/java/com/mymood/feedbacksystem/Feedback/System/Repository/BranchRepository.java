@@ -7,5 +7,7 @@ import com.mymood.feedbacksystem.Feedback.System.Entity.BranchEntity;
 
 @Repository
 public interface BranchRepository extends JpaRepository<BranchEntity, Long>{
+
+	boolean existsByName(String name);
 	
 }
