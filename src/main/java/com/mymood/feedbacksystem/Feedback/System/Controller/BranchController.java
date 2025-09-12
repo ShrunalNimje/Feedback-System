@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.BranchRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.BranchResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.BranchUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.BranchService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/admin/branches")
@@ -25,7 +28,7 @@ public class BranchController {
 	BranchService branchService;
 	
 	@PostMapping()
-	public ResponseEntity<String> createBranch(@RequestBody BranchRequestDTO create) {
+	public ResponseEntity<String> createBranch(@Valid @RequestBody BranchRequestDTO create) {
 		BranchResponseDTO saved =  branchService.createBranch(create);
 		return ResponseEntity.ok("Branch created successfully with id = " + saved.getBranchId());
 	}
@@ -37,7 +40,7 @@ public class BranchController {
 	}
 	
 	@PutMapping("/{branchId}")
-	public ResponseEntity<String> updateBranch(@RequestBody BranchRequestDTO update, @PathVariable Long branchId) {
+	public ResponseEntity<String> updateBranch(@Valid @RequestBody BranchUpdateDTO update, @PathVariable Long branchId) {
 		branchService.updateBranch(branchId, update);
 		return ResponseEntity.ok("Branch updated successfully with id = " + branchId);
 	}

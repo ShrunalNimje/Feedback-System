@@ -17,7 +17,7 @@ public class SectionEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long sectionId;
 		
-	@Column(nullable = false)
+	@Column(nullable = false, length = 1)
 	private String name;
 	
 	@ManyToOne

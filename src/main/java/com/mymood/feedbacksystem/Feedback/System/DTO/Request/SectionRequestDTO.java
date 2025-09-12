@@ -1,9 +1,17 @@
 package com.mymood.feedbacksystem.Feedback.System.DTO.Request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class SectionRequestDTO {
 
-    private String name;
-    private Long branchId;
+	@NotBlank(message = "Section name is required")
+	@Size(min = 1, max = 1, message = "Section name must be exactly 1 character")
+	private String name;
+
+	@NotNull(message = "Branch ID must be provided")
+	private Long branchId;
 
     public SectionRequestDTO() {
     }

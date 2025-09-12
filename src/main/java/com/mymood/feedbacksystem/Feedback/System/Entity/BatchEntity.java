@@ -17,7 +17,7 @@ public class BatchEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long batchId;
 	
-	@Column(unique = true, nullable = false)
+	@Column(unique = true, nullable = false, length = 2)
 	private String name;
 	
 	@ManyToOne

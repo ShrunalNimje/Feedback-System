@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.SectionRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.SectionResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.SectionUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.SectionService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/admin/sections")
@@ -25,7 +28,7 @@ public class SectionController {
     SectionService sectionService;
 
     @PostMapping()
-    public ResponseEntity<String> createSection(@RequestBody SectionRequestDTO request) {
+    public ResponseEntity<String> createSection(@Valid @RequestBody SectionRequestDTO request) {
         SectionResponseDTO saved = sectionService.createSection(request);
         return ResponseEntity.ok("Section created successfully with id = " + saved.getSectionId());
     }
@@ -41,7 +44,7 @@ public class SectionController {
     }
 
     @PutMapping("/{sectionId}")
-    public ResponseEntity<String> updateSection(@PathVariable Long sectionId, @RequestBody SectionRequestDTO update) {
+    public ResponseEntity<String> updateSection(@Valid @PathVariable Long sectionId, @RequestBody SectionUpdateDTO update) {
     	sectionService.updateSection(sectionId, update);
         return ResponseEntity.ok("Section updated successfully with id = " + sectionId);
     }

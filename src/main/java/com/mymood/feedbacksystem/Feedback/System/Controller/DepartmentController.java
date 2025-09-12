@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.DepartmentRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.DepartmentResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.DepartmentUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.DepartmentService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/admin/departments")
@@ -25,7 +28,7 @@ public class DepartmentController {
 	DepartmentService departmentService;
 	
 	@PostMapping()
-	public ResponseEntity<String> createDepartment(@RequestBody DepartmentRequestDTO create) {
+	public ResponseEntity<String> createDepartment(@Valid @RequestBody DepartmentRequestDTO create) {
 		DepartmentResponseDTO saved =  departmentService.createDepartment(create);
 		return ResponseEntity.ok("Department created successfully with id = " + saved.getDepartmentId());
 	}
@@ -37,7 +40,7 @@ public class DepartmentController {
 	}
 	
 	@PutMapping("/{departmentId}")
-	public ResponseEntity<String> updateDepartment(@RequestBody DepartmentRequestDTO update, @PathVariable Long departmentId) {
+	public ResponseEntity<String> updateDepartment(@Valid @RequestBody DepartmentUpdateDTO update, @PathVariable Long departmentId) {
 		departmentService.updateDepartment(departmentId, update);
 		return ResponseEntity.ok("Department updated successfully with id = " + departmentId);
 	}

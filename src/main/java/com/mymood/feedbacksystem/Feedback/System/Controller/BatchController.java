@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.BatchRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.BatchResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.BatchUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.BatchService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/admin/batches")
@@ -25,7 +28,7 @@ public class BatchController {
 	BatchService batchService;
 	
 	@PostMapping()
-	public ResponseEntity<String> createBatch(@RequestBody BatchRequestDTO create) {
+	public ResponseEntity<String> createBatch(@Valid @RequestBody BatchRequestDTO create) {
 		BatchResponseDTO saved =  batchService.createBatch(create);
 		return ResponseEntity.ok("Batch created successfully with id = " + saved.getBatchId());
 	}
@@ -37,7 +40,7 @@ public class BatchController {
 	}
 	
 	@PutMapping("/{batchId}")
-	public ResponseEntity<String> updateBatch(@RequestBody BatchRequestDTO update, @PathVariable Long batchId) {
+	public ResponseEntity<String> updateBatch(@Valid @RequestBody BatchUpdateDTO update, @PathVariable Long batchId) {
 		batchService.updateBatch(batchId, update);
 		return ResponseEntity.ok("Batch updated successfully with id = " + batchId);
 	}
