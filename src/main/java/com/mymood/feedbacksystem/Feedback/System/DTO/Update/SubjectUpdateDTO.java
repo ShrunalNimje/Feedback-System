@@ -1,0 +1,65 @@
+package com.mymood.feedbacksystem.Feedback.System.DTO.Update;
+
+import com.mymood.feedbacksystem.Feedback.System.Enum.SubjectType;
+
+public class SubjectUpdateDTO {
+
+	 private String subjectCode;
+	 private String subjectName;
+	 private SubjectType subjectType;
+	 private Long departmentId;
+	 private Integer semester;
+
+	 public SubjectUpdateDTO() {
+		 
+	 }
+
+	 public SubjectUpdateDTO(String subjectCode, String subjectName, SubjectType subjectType, 
+			 Long departmentId, Integer semester) {
+	     this.subjectCode = subjectCode;
+	     this.subjectName = subjectName;
+	     this.subjectType = subjectType;
+	     this.departmentId = departmentId;
+	     this.semester = semester;
+	 }
+	
+	 public Integer getSemester() {
+		return semester;
+	}
+
+	public void setSemester(Integer semester) {
+		this.semester = semester;
+	}
+
+	public String getSubjectCode() {
+	     return subjectCode;
+	 }
+	
+	 public void setSubjectCode(String subjectCode) {
+	     this.subjectCode = subjectCode;
+	 }
+	
+	 public String getSubjectName() {
+	     return subjectName;
+	 }
+	
+	 public void setSubjectName(String subjectName) {
+	     this.subjectName = subjectName;
+	 }
+	
+	 public SubjectType getSubjectType() {
+	     return subjectType;
+	 }
+	
+	 public void setSubjectType(SubjectType subjectType) {
+	     this.subjectType = subjectType;
+	 }
+	
+	 public Long getDepartmentId() {
+	     return departmentId;
+	 }
+	
+	 public void setDepartmentId(Long departmentId) {
+	     this.departmentId = departmentId;
+	 }
+}
