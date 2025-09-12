@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.StudentRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.StudentResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.StudentUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Entity.BatchEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.StudentEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.UserEntity;
@@ -106,7 +107,7 @@ public class StudentServiceImpl implements StudentService{
 	}
 
 	@Override
-	public StudentResponseDTO updateStudent(Long id, StudentRequestDTO update) {
+	public StudentResponseDTO updateStudent(Long id, StudentUpdateDTO update) {
 		
 		StudentEntity student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found!"));

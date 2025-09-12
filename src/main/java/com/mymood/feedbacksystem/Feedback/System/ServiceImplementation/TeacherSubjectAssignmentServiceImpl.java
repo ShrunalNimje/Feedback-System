@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.TeacherSubjectAssignmentRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.TeacherSubjectAssignmentResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.TeacherSubjectAssignmentUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Entity.BatchEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.SectionEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.SubjectEntity;
@@ -109,7 +110,7 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
 	}
 
 	@Override
-	public TeacherSubjectAssignmentResponseDTO updateAssignment(Long id, TeacherSubjectAssignmentRequestDTO update) {
+	public TeacherSubjectAssignmentResponseDTO updateAssignment(Long id, TeacherSubjectAssignmentUpdateDTO update) {
 
 		TeacherSubjectAssignmentEntity assignment = teacherSubjectAssignmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Assignment not found!"));

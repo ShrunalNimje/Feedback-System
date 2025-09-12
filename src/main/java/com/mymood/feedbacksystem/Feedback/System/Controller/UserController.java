@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.UserRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.UserResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.UserUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.UserService;
 
 @RestController
@@ -46,7 +47,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<String> updateUser(@PathVariable Long userId, @RequestBody UserRequestDTO update) {
+    public ResponseEntity<String> updateUser(@PathVariable Long userId, @RequestBody UserUpdateDTO update) {
         userService.updateUser(userId, update);
         return ResponseEntity.ok("User updated successfully with id = " + userId);
     }

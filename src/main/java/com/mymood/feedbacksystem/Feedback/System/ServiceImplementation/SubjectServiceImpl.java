@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.SubjectRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.SubjectResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.SubjectUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Entity.DepartmentEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.SubjectEntity;
 import com.mymood.feedbacksystem.Feedback.System.Repository.DepartmentRepository;
@@ -66,7 +67,7 @@ public class SubjectServiceImpl implements SubjectService{
 	}
 
 	@Override
-	public SubjectResponseDTO updateSubject(Long id, SubjectRequestDTO update) {
+	public SubjectResponseDTO updateSubject(Long id, SubjectUpdateDTO update) {
 		
 		SubjectEntity subject = subjectRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Subject not found!"));

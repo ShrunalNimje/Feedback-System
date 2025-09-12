@@ -15,6 +15,7 @@ import com.mymood.feedbacksystem.Feedback.System.DTO.Request.LoginRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.UserRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.LoginResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.UserResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.UserUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Entity.UserEntity;
 import com.mymood.feedbacksystem.Feedback.System.Repository.UserRepository;
 import com.mymood.feedbacksystem.Feedback.System.Security.JWTService;
@@ -78,7 +79,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserResponseDTO updateUser(Long id, UserRequestDTO update) {
+	public UserResponseDTO updateUser(Long id, UserUpdateDTO update) {
 		
 		UserEntity user = userRepository.findById(id)
 	            .orElseThrow(() -> new RuntimeException("User not found!"));

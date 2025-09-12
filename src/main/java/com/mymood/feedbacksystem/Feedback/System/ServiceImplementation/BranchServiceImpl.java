@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.BranchRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.BranchResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.BranchUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Entity.BranchEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.DepartmentEntity;
 import com.mymood.feedbacksystem.Feedback.System.Repository.BranchRepository;
@@ -26,6 +27,10 @@ public class BranchServiceImpl implements BranchService{
 	@Override
 	public BranchResponseDTO createBranch(BranchRequestDTO create) {
 		
+		if (branchRepository.existsByName(create.getName())) {
+		    throw new RuntimeException("Branch already exists");
+		}
+
 		DepartmentEntity dept = departmentRepository.findById(create.getDepartmentId())
 				.orElseThrow(() -> new RuntimeException("Department not found!"));
 		
@@ -47,15 +52,19 @@ public class BranchServiceImpl implements BranchService{
 	}
 
 	@Override
-	public BranchResponseDTO updateBranch(Long id, BranchRequestDTO update) {
+	public BranchResponseDTO updateBranch(Long id, BranchUpdateDTO update) {
 		
 		BranchEntity existingBranch = branchRepository.findById(id)
 		.orElseThrow(() -> new RuntimeException("Branch not found!"));
 		
-		if(update.getName() != null) {
-			existingBranch.setName(update.getName());
+		if (update.getName() != null) {
+		    if (branchRepository.existsByName(update.getName())
+		            && !existingBranch.getName().equals(update.getName())) {
+		        throw new RuntimeException("Another branch with this name already exists");
+		    }
+		    existingBranch.setName(update.getName());
 		}
-		
+
 		if(update.getDepartmentId() != null) {
 			DepartmentEntity dept = departmentRepository.findById(update.getDepartmentId())
 					.orElseThrow(() -> new RuntimeException("Department not found!"));

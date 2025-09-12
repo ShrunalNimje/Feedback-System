@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.TeacherRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.TeacherResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.TeacherUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.TeacherService;
 
 @RestController
@@ -41,7 +42,7 @@ public class TeacherController {
     }
 
     @PutMapping("/{teacherId}")
-    public ResponseEntity<String> updateTeacher(@PathVariable Long teacherId, @RequestBody TeacherRequestDTO update) {
+    public ResponseEntity<String> updateTeacher(@PathVariable Long teacherId, @RequestBody TeacherUpdateDTO update) {
         teacherService.updateTeacher(teacherId, update);
         return ResponseEntity.ok("Teacher updated successfully with id = " + teacherId);
     }

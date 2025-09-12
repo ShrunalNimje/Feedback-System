@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.DepartmentRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.DepartmentResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.DepartmentUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Entity.DepartmentEntity;
 import com.mymood.feedbacksystem.Feedback.System.Repository.DepartmentRepository;
 import com.mymood.feedbacksystem.Feedback.System.Service.DepartmentService;
@@ -21,6 +22,10 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public DepartmentResponseDTO createDepartment(DepartmentRequestDTO create) {
 		
+		if (departmentRepository.existsByName(create.getName())) {
+		    throw new RuntimeException("Department already exists");
+		}
+
 		DepartmentEntity dept = new DepartmentEntity();
 		dept.setName(create.getName());
 		
@@ -38,11 +43,16 @@ public class DepartmentServiceImpl implements DepartmentService{
 	}
 
 	@Override
-	public DepartmentResponseDTO updateDepartment(Long id, DepartmentRequestDTO update) {
+	public DepartmentResponseDTO updateDepartment(Long id, DepartmentUpdateDTO update) {
 		
 		DepartmentEntity existingDepartment = departmentRepository.findById(id).orElseThrow(
 				() -> new RuntimeException("Department not exist!"));
 		
+		if (departmentRepository.existsByName(update.getName()) &&
+			    !existingDepartment.getName().equals(update.getName())) {
+			    throw new RuntimeException("Another department with this name already exists");
+			}
+
 		existingDepartment.setName(update.getName());
 		DepartmentEntity saved = departmentRepository.save(existingDepartment);
 		return new DepartmentResponseDTO(id, saved.getName());

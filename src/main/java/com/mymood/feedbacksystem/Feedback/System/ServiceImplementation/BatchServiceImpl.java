@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.BatchRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.BatchResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.BatchUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Entity.BatchEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.SectionEntity;
 import com.mymood.feedbacksystem.Feedback.System.Repository.BatchRepository;
@@ -26,6 +27,10 @@ public class BatchServiceImpl implements BatchService{
 	@Override
 	public BatchResponseDTO createBatch(BatchRequestDTO create) {
 		
+		if (batchRepository.existsByName(create.getName())) {
+		    throw new RuntimeException("Batch already exists");
+		}
+
 		SectionEntity section = sectionRepository.findById(create.getSectionId())
 				.orElseThrow(() -> new RuntimeException("Section not found!"));
 		
@@ -46,13 +51,17 @@ public class BatchServiceImpl implements BatchService{
 	}
 
 	@Override
-	public BatchResponseDTO updateBatch(Long id, BatchRequestDTO update) {
+	public BatchResponseDTO updateBatch(Long id, BatchUpdateDTO update) {
 
 		BatchEntity batch = batchRepository.findById(id).orElseThrow(
 				() -> new RuntimeException("Batch not found!"));
 		
-		if(update.getName() != null) {
-			batch.setName(update.getName());
+		if (update.getName() != null) {
+		    if (batchRepository.existsByName(update.getName())
+		            && !batch.getName().equals(update.getName())) {
+		        throw new RuntimeException("Another batch with this name already exists");
+		    }
+		    batch.setName(update.getName());
 		}
 		
 		if(update.getSectionId() != null) {

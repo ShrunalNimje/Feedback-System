@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.SectionRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.SectionResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.SectionUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Entity.BranchEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.SectionEntity;
 import com.mymood.feedbacksystem.Feedback.System.Repository.BranchRepository;
@@ -26,6 +27,10 @@ public class SectionServiceImpl implements SectionService{
 	@Override
 	public SectionResponseDTO createSection(SectionRequestDTO create) {
 		
+		if (sectionRepository.existsByName(create.getName())) {
+		    throw new RuntimeException("Section already exists");
+		}
+
 		BranchEntity branch = branchRepository.findById(create.getBranchId())
 				.orElseThrow(() -> new RuntimeException("Branch not found!"));
 		
@@ -46,13 +51,17 @@ public class SectionServiceImpl implements SectionService{
 	}
 
 	@Override
-	public SectionResponseDTO updateSection(Long id, SectionRequestDTO update) {
+	public SectionResponseDTO updateSection(Long id, SectionUpdateDTO update) {
 		
 		SectionEntity sec = sectionRepository.findById(id)
 		.orElseThrow(() -> new RuntimeException("Section not found!"));
 		
-		if(update.getName() != null) {
-			sec.setName(update.getName());
+		if (update.getName() != null) {
+		    if (sectionRepository.existsByName(update.getName())
+		            && !sec.getName().equals(update.getName())) {
+		        throw new RuntimeException("Another section with this name already exists");
+		    }
+		    sec.setName(update.getName());
 		}
 		
 		if(update.getBranchId() != null) {

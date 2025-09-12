@@ -4,12 +4,13 @@ import java.util.List;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.TeacherRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.TeacherResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Update.TeacherUpdateDTO;
 
 public interface TeacherService {
 
 	TeacherResponseDTO createTeacher(TeacherRequestDTO create);
     TeacherResponseDTO getTeacher(Long id);
     List<TeacherResponseDTO> getAllTeacher();
-    TeacherResponseDTO updateTeacher(Long id, TeacherRequestDTO update);
+    TeacherResponseDTO updateTeacher(Long id, TeacherUpdateDTO update);
     void deleteTeacher(Long id);
 }
