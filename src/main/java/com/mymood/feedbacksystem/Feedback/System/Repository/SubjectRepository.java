@@ -7,5 +7,7 @@ import com.mymood.feedbacksystem.Feedback.System.Entity.SubjectEntity;
 
 @Repository
 public interface SubjectRepository extends JpaRepository<SubjectEntity, Long>{
+
+	boolean existsByCode(String subjectCode);
 	
 }
