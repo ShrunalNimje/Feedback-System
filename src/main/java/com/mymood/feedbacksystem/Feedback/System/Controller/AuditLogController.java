@@ -15,6 +15,8 @@ import com.mymood.feedbacksystem.Feedback.System.DTO.Request.AuditLogRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.AuditLogResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.AuditLogService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/admin/audit-logs")
 public class AuditLogController {
@@ -23,7 +25,7 @@ public class AuditLogController {
 	AuditLogService auditLogService;
 	
 	@PostMapping()
-	public ResponseEntity<String> logAction(@RequestBody AuditLogRequestDTO request) {
+	public ResponseEntity<String> logAction(@Valid @RequestBody AuditLogRequestDTO request) {
 		auditLogService.logAction(request.getUserId(), request.getAction(), request.getIpAddress());
 		return ResponseEntity.ok("Audit-log saved successfully!");
 	}

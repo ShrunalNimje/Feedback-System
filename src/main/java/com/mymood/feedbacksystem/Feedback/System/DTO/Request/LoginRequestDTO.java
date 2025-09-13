@@ -1,9 +1,14 @@
 package com.mymood.feedbacksystem.Feedback.System.DTO.Request;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class LoginRequestDTO {
 
-	private String username;
-	private String password;
+	@NotBlank(message = "Username is required")
+    private String username;
+
+    @NotBlank(message = "Password is required")
+    private String password;
 	
 	public LoginRequestDTO() {
 		

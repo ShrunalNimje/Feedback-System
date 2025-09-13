@@ -16,6 +16,8 @@ import com.mymood.feedbacksystem.Feedback.System.DTO.Request.FeedbackRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.FeedbackResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.FeedbackService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/feedbacks")
 public class FeedbackController {
@@ -25,7 +27,7 @@ public class FeedbackController {
 
     @PostMapping("/submit")
     @PreAuthorize("hasRole('STUDENT')")
-    public ResponseEntity<String> submitFeedback(@RequestBody FeedbackRequestDTO request) {
+    public ResponseEntity<String> submitFeedback(@Valid @RequestBody FeedbackRequestDTO request) {
         FeedbackResponseDTO saved = feedbackService.submitFeedback(request);
         return ResponseEntity.ok("Feedback submitted successfully with id = " + saved.getFeedbackId());
     }

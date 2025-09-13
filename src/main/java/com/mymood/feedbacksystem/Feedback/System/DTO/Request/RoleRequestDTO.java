@@ -1,9 +1,12 @@
 package com.mymood.feedbacksystem.Feedback.System.DTO.Request;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class RoleRequestDTO {
 
+	@NotBlank(message = "Role name is required")
     private String name;
-
+	
     public RoleRequestDTO() {
     	
     }

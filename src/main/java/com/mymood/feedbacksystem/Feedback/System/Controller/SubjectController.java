@@ -18,6 +18,8 @@ import com.mymood.feedbacksystem.Feedback.System.DTO.Response.SubjectResponseDTO
 import com.mymood.feedbacksystem.Feedback.System.DTO.Update.SubjectUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.SubjectService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/teacher/subjects")
 public class SubjectController {
@@ -26,7 +28,7 @@ public class SubjectController {
     private SubjectService subjectService;
 
     @PostMapping()
-    public ResponseEntity<String> createSubject(@RequestBody SubjectRequestDTO request) {
+    public ResponseEntity<String> createSubject(@Valid @RequestBody SubjectRequestDTO request) {
         SubjectResponseDTO saved = subjectService.createSubject(request);
         return ResponseEntity.ok("Subject created successfully with id = " + saved.getSubjectId());
     }
@@ -42,7 +44,7 @@ public class SubjectController {
     }
 
     @PutMapping("/{subjectId}")
-    public ResponseEntity<String> updateSubject(@PathVariable Long subjectId, @RequestBody SubjectUpdateDTO update) {
+    public ResponseEntity<String> updateSubject(@PathVariable Long subjectId, @Valid @RequestBody SubjectUpdateDTO update) {
         subjectService.updateSubject(subjectId, update);
         return ResponseEntity.ok("Subject updated successfully with id = " + subjectId);
     }

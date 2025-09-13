@@ -1,22 +1,32 @@
 package com.mymood.feedbacksystem.Feedback.System.DTO.Request;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class TeacherRequestDTO {
 
-	private String username;
+	@NotBlank(message = "Password is required")
     private String password;
+
+    @NotBlank(message = "Name is required")
     private String name;
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email should be valid")
     private String email;
+
+    @NotNull(message = "Department ID is required")
     private Long departmentId;
 
     public TeacherRequestDTO() {
     	
     }
 
-    public TeacherRequestDTO(String name, String email, Long departmentId, String username, String password) {
+    public TeacherRequestDTO(String name, String email, Long departmentId, String password) {
         this.name = name;
         this.email = email;
         this.departmentId = departmentId;
-        this.username = username;
         this.password = password;
     }
 
@@ -43,14 +53,6 @@ public class TeacherRequestDTO {
     public void setDepartmentId(Long departmentId) {
         this.departmentId = departmentId;
     }
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 	public String getPassword() {
 		return password;

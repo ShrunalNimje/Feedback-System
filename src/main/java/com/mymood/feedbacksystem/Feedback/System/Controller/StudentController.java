@@ -18,6 +18,8 @@ import com.mymood.feedbacksystem.Feedback.System.DTO.Response.StudentResponseDTO
 import com.mymood.feedbacksystem.Feedback.System.DTO.Update.StudentUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.StudentService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/admin/students")
 public class StudentController {
@@ -26,7 +28,7 @@ public class StudentController {
     private StudentService studentService;
 
     @PostMapping()
-    public ResponseEntity<String> createStudent(@RequestBody StudentRequestDTO request) {
+    public ResponseEntity<String> createStudent(@Valid @RequestBody StudentRequestDTO request) {
         StudentResponseDTO saved = studentService.createStudent(request);
         return ResponseEntity.ok("Student created successfully with id = " + saved.getStudentId());
     }
@@ -42,7 +44,7 @@ public class StudentController {
     }
 
     @PutMapping("/{studentId}")
-    public ResponseEntity<String> updateStudent(@PathVariable Long studentId, @RequestBody StudentUpdateDTO update) {
+    public ResponseEntity<String> updateStudent(@PathVariable Long studentId, @Valid @RequestBody StudentUpdateDTO update) {
     	studentService.updateStudent(studentId, update);
         return ResponseEntity.ok("Student updated successfully with id = " + studentId);
     }

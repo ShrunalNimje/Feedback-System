@@ -12,6 +12,8 @@ import com.mymood.feedbacksystem.Feedback.System.DTO.Request.LoginRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.LoginResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api")
 public class AuthenticationController {
@@ -20,7 +22,7 @@ public class AuthenticationController {
     private UserService userService;
 
     @PostMapping("/auth/login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO request) {
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
     	LoginResponseDTO token = userService.authenticate(request);
         return ResponseEntity.ok(token);
     }

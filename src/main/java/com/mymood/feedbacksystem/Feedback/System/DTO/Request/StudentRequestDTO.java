@@ -1,16 +1,41 @@
 package com.mymood.feedbacksystem.Feedback.System.DTO.Request;
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class StudentRequestDTO {
 
-	private String username;
+	@NotBlank(message = "Password is required")
     private String password;
+
+    @NotBlank(message = "Name is required")
     private String name;
+
+    @NotNull(message = "Roll number is required")
     private Integer rollNo;
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email should be valid")
     private String email;
+
+    @NotNull(message = "Batch ID is required")
     private Long batchId;
+
+    @NotBlank(message = "Enrollment ID is required")
     private String enrollmentId;
+
+    @NotNull(message = "Semester is required")
     private Integer semester;
+
+    @NotNull(message = "Year is required")
     private Integer year;
+
+    @NotNull(message = "Attendance percentage is required")
+    @DecimalMin(value = "0.0", message = "Attendance cannot be less than 0")
+    @DecimalMax(value = "100.0", message = "Attendance cannot be more than 100")
     private Float attendance;
 
     public StudentRequestDTO() {
@@ -18,13 +43,12 @@ public class StudentRequestDTO {
     }
 
     public StudentRequestDTO(String name, Integer rollNo, String email, Long batchId, 
-    		String enrollmentId, String username, String password, Integer semester, Integer year, Float attendance) {
+    		String enrollmentId, String password, Integer semester, Integer year, Float attendance) {
         this.name = name;
         this.rollNo = rollNo;
         this.email = email;
         this.batchId = batchId;
         this.enrollmentId = enrollmentId;
-        this.username = username;
         this.password = password;
         this.semester = semester;
         this.year = year;
@@ -94,14 +118,6 @@ public class StudentRequestDTO {
     public void setBatchId(Long batchId) {
         this.batchId = batchId;
     }
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 	public String getPassword() {
 		return password;

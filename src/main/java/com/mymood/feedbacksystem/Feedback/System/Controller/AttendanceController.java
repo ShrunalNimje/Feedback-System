@@ -15,6 +15,8 @@ import com.mymood.feedbacksystem.Feedback.System.DTO.Request.AttendanceRequestDT
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.AttendanceResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.AttendanceService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/admin/attendances")
 public class AttendanceController {
@@ -28,7 +30,7 @@ public class AttendanceController {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<String> addAttendance(@RequestBody AttendanceRequestDTO add) {
+	public ResponseEntity<String> addAttendance(@Valid @RequestBody AttendanceRequestDTO add) {
 		attendanceService.addAttendance(add);
 		return ResponseEntity.ok("Attendance added successfully!");
 	}

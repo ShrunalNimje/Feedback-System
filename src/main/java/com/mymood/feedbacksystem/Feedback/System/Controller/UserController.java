@@ -18,6 +18,8 @@ import com.mymood.feedbacksystem.Feedback.System.DTO.Response.UserResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Update.UserUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/admin/users")
 public class UserController {
@@ -26,7 +28,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping()
-    public ResponseEntity<String> createUser(@RequestBody UserRequestDTO request) {
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserRequestDTO request) {
         UserResponseDTO saved = userService.createUser(request);
         return ResponseEntity.ok("User created successfully with id = " + saved.getUserId());
     }
@@ -47,7 +49,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<String> updateUser(@PathVariable Long userId, @RequestBody UserUpdateDTO update) {
+    public ResponseEntity<String> updateUser(@PathVariable Long userId, @Valid @RequestBody UserUpdateDTO update) {
         userService.updateUser(userId, update);
         return ResponseEntity.ok("User updated successfully with id = " + userId);
     }

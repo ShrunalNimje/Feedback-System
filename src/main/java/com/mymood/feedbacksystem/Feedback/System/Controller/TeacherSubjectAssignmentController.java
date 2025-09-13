@@ -18,6 +18,8 @@ import com.mymood.feedbacksystem.Feedback.System.DTO.Response.TeacherSubjectAssi
 import com.mymood.feedbacksystem.Feedback.System.DTO.Update.TeacherSubjectAssignmentUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.TeacherSubjectAssignmentService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/admin/assignments")
 public class TeacherSubjectAssignmentController {
@@ -26,7 +28,7 @@ public class TeacherSubjectAssignmentController {
     private TeacherSubjectAssignmentService assignmentService;
 
     @PostMapping()
-    public ResponseEntity<String> createAssignment(@RequestBody TeacherSubjectAssignmentRequestDTO request) {
+    public ResponseEntity<String> createAssignment(@Valid @RequestBody TeacherSubjectAssignmentRequestDTO request) {
         TeacherSubjectAssignmentResponseDTO saved = assignmentService.createAssignment(request);
         return ResponseEntity.ok("Assignment created successfully with id = " + saved.getTeacherSubjectAssignmentId());
     }
@@ -42,7 +44,7 @@ public class TeacherSubjectAssignmentController {
     }
 
     @PutMapping("/{assignmentId}")
-    public ResponseEntity<String> updateAssignment(@PathVariable Long assignmentId, @RequestBody TeacherSubjectAssignmentUpdateDTO update) {
+    public ResponseEntity<String> updateAssignment(@PathVariable Long assignmentId, @Valid @RequestBody TeacherSubjectAssignmentUpdateDTO update) {
         assignmentService.updateAssignment(assignmentId, update);
         return ResponseEntity.ok("Assignment updated successfully with id = " + assignmentId);
     }

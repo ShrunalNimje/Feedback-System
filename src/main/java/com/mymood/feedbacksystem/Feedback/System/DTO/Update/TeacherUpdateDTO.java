@@ -1,22 +1,28 @@
 package com.mymood.feedbacksystem.Feedback.System.DTO.Update;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+
 public class TeacherUpdateDTO {
 
-	private String username;
-    private String password;
-    private String name;
-    private String email;
+	private String password; 
+
+    @Size(max = 100, message = "Name can be up to 100 characters")
+    private String name;   
+
+    @Email(message = "Please provide a valid email")
+    private String email;    
+
     private Long departmentId;
 
     public TeacherUpdateDTO() {
     	
     }
 
-    public TeacherUpdateDTO(String name, String email, Long departmentId, String username, String password) {
+    public TeacherUpdateDTO(String name, String email, Long departmentId, String password) {
         this.name = name;
         this.email = email;
         this.departmentId = departmentId;
-        this.username = username;
         this.password = password;
     }
 
@@ -43,14 +49,6 @@ public class TeacherUpdateDTO {
     public void setDepartmentId(Long departmentId) {
         this.departmentId = departmentId;
     }
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 	public String getPassword() {
 		return password;

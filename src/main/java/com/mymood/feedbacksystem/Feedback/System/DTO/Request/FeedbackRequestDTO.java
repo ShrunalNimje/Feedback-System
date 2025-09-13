@@ -1,18 +1,52 @@
 package com.mymood.feedbacksystem.Feedback.System.DTO.Request;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
 public class FeedbackRequestDTO {
 
+	@NotNull(message = "Teacher ID is required")
     private Long teacherId;
+
+    @NotNull(message = "Student ID is required")
     private Long studentId;
+
+    @NotNull(message = "Subject ID is required")
     private Long subjectId;
+
+    @NotNull(message = "Semester is required")
     private Integer semester;
+
+    @NotNull(message = "Latitude is required")
     private Double latitude;
+
+    @NotNull(message = "Longitude is required")
     private Double longitude;
 
+    @NotNull(message = "Question 1 rating is required")
+    @Min(value = 1, message = "Minimum rating is 1")
+    @Max(value = 5, message = "Maximum rating is 5")
     private Integer question1Rating;
+
+    @NotNull(message = "Question 2 rating is required")
+    @Min(value = 1, message = "Minimum rating is 1")
+    @Max(value = 5, message = "Maximum rating is 5")
     private Integer question2Rating;
+
+    @NotNull(message = "Question 3 rating is required")
+    @Min(value = 1, message = "Minimum rating is 1")
+    @Max(value = 5, message = "Maximum rating is 5")
     private Integer question3Rating;
+
+    @NotNull(message = "Question 4 rating is required")
+    @Min(value = 1, message = "Minimum rating is 1")
+    @Max(value = 5, message = "Maximum rating is 5")
     private Integer question4Rating;
+
+    @NotNull(message = "Question 5 rating is required")
+    @Min(value = 1, message = "Minimum rating is 1")
+    @Max(value = 5, message = "Maximum rating is 5")
     private Integer question5Rating;
 
     public FeedbackRequestDTO() {

@@ -1,12 +1,23 @@
 package com.mymood.feedbacksystem.Feedback.System.DTO.Update;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+
 public class TeacherSubjectAssignmentUpdateDTO {
 
-    private Long teacherId;
-    private Long subjectId;
-    private Long sectionId;
-    private Long batchId;
-    private Integer year;
+	private Long teacherId;    
+
+    private Long subjectId;    
+
+    private Long sectionId;    
+
+    private Long batchId;    
+
+    @Min(value = 1, message = "Year must be positive")
+    private Integer year;    
+
+    @Min(value = 1, message = "Semester must be positive")
+    @Max(value = 12, message = "Semester cannot exceed 12")
     private Integer semester;
 
     public TeacherSubjectAssignmentUpdateDTO() {

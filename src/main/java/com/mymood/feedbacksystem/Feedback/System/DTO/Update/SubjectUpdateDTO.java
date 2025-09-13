@@ -2,13 +2,25 @@ package com.mymood.feedbacksystem.Feedback.System.DTO.Update;
 
 import com.mymood.feedbacksystem.Feedback.System.Enum.SubjectType;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
+
 public class SubjectUpdateDTO {
 
-	 private String subjectCode;
-	 private String subjectName;
-	 private SubjectType subjectType;
-	 private Long departmentId;
-	 private Integer semester;
+	@Size(max = 20, message = "Subject code can be up to 20 characters")
+    private String subjectCode;    
+
+    @Size(max = 100, message = "Subject name can be up to 100 characters")
+    private String subjectName;    
+
+    private SubjectType subjectType;    
+
+    private Long departmentId;    
+
+    @Min(value = 1, message = "Semester must be positive")
+    @Max(value = 12, message = "Semester cannot exceed 12")
+    private Integer semester; 
 
 	 public SubjectUpdateDTO() {
 		 

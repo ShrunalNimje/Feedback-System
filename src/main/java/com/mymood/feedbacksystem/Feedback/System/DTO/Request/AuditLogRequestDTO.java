@@ -1,9 +1,17 @@
 package com.mymood.feedbacksystem.Feedback.System.DTO.Request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class AuditLogRequestDTO {
 
+	@NotNull(message = "User ID is required")
     private Long userId;
+
+    @NotBlank(message = "Action is required")
     private String action;
+
+    @NotBlank(message = "IP Address is required")
     private String ipAddress;
 
     public AuditLogRequestDTO() {

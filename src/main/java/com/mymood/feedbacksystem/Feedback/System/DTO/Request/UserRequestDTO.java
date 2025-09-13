@@ -2,10 +2,18 @@ package com.mymood.feedbacksystem.Feedback.System.DTO.Request;
 
 import com.mymood.feedbacksystem.Feedback.System.Enum.Role;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class UserRequestDTO {
 
+	@NotBlank(message = "Username is required")
     private String username;
+
+    @NotBlank(message = "Password is required")
     private String password;
+
+    @NotNull(message = "Role is required")
     private Role role;
 
     public UserRequestDTO() {

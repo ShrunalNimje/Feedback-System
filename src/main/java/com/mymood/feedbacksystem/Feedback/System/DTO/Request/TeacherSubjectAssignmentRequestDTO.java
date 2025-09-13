@@ -1,12 +1,27 @@
 package com.mymood.feedbacksystem.Feedback.System.DTO.Request;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
 public class TeacherSubjectAssignmentRequestDTO {
 
+	@NotNull(message = "Teacher ID is required")
     private Long teacherId;
+
+    @NotNull(message = "Subject ID is required")
     private Long subjectId;
+
+    @NotNull(message = "Section ID is required")
     private Long sectionId;
+
     private Long batchId;
+
+    @NotNull(message = "Year is required")
+    @Min(value = 1, message = "Year must be at least 1")
     private Integer year;
+
+    @NotNull(message = "Semester is required")
+    @Min(value = 1, message = "Semester must be at least 1")
     private Integer semester;
 
     public TeacherSubjectAssignmentRequestDTO() {
