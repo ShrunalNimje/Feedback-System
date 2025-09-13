@@ -27,6 +27,10 @@ public class SubjectServiceImpl implements SubjectService{
 	@Override
 	public SubjectResponseDTO createSubject(SubjectRequestDTO create) {
 		
+		if(subjectRepository.existsByCode(create.getSubjectCode())) {
+		    throw new RuntimeException("Subject code already exists!");
+		}
+
 		DepartmentEntity department = departmentRepository.findById(create.getDepartmentId())
                 .orElseThrow(() -> new RuntimeException("Department not found!"));
 		
@@ -39,7 +43,7 @@ public class SubjectServiceImpl implements SubjectService{
 
         SubjectEntity saved = subjectRepository.save(subject);
         return new SubjectResponseDTO(saved.getSubjectId(), saved.getCode(), saved.getName(), 
-        		saved.getType(), saved.getDepartment().getName());
+        		saved.getType(), saved.getDepartment().getName(), saved.getSemester());
 	}
 
 	@Override
@@ -49,7 +53,7 @@ public class SubjectServiceImpl implements SubjectService{
                 .orElseThrow(() -> new RuntimeException("Subject not found!"));
 
         return new SubjectResponseDTO(subject.getSubjectId(), subject.getCode(), subject.getName(), 
-        		subject.getType(), subject.getDepartment().getName());
+        		subject.getType(), subject.getDepartment().getName(), subject.getSemester());
 	}
 
 	@Override
@@ -62,7 +66,8 @@ public class SubjectServiceImpl implements SubjectService{
                         subject.getName(),
                         subject.getCode(),
                         subject.getType(),
-                        subject.getDepartment().getName()))
+                        subject.getDepartment().getName(),
+                        subject.getSemester()))
                 .collect(Collectors.toList());
 	}
 
@@ -84,6 +89,10 @@ public class SubjectServiceImpl implements SubjectService{
 	        subject.setCode(update.getSubjectCode());
 		}
 		
+		if(update.getSemester() != null) {
+	        subject.setSemester(update.getSemester());
+		}
+		
 		if(update.getDepartmentId() != null) {
 			DepartmentEntity department = departmentRepository.findById(update.getDepartmentId())
 	                .orElseThrow(() -> new RuntimeException("Department not found!"));
@@ -94,7 +103,7 @@ public class SubjectServiceImpl implements SubjectService{
         SubjectEntity saved = subjectRepository.save(subject);
 
         return new SubjectResponseDTO(saved.getSubjectId(), saved.getCode(), saved.getName(), 
-        		saved.getType(), saved.getDepartment().getName());
+        		saved.getType(), saved.getDepartment().getName(), saved.getSemester());
 	}
 
 	@Override

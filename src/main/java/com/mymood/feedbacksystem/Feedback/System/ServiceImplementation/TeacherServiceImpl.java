@@ -37,12 +37,16 @@ public class TeacherServiceImpl implements TeacherService{
 	@Override
 	public TeacherResponseDTO createTeacher(TeacherRequestDTO create) {
 		
+		if(userRepository.existsByUsername(create.getEmail())) {
+	        throw new RuntimeException("Email already in use!");
+	    }
+		
 		DepartmentEntity department = departmentRepository.findById(create.getDepartmentId())
                 .orElseThrow(() -> new RuntimeException("Department not found!"));
 
 		UserEntity user = new UserEntity();
 		user.setPassword(passwordEncoder.encode(create.getPassword()));
-		user.setUsername(create.getUsername());
+		user.setUsername(create.getEmail());
 		user.setRole(Role.TEACHER);
 		userRepository.save(user);
 		
@@ -54,7 +58,7 @@ public class TeacherServiceImpl implements TeacherService{
 
         TeacherEntity saved = teacherRepository.save(teacher);
         return new TeacherResponseDTO(saved.getTeacherId(), saved.getName(), saved.getEmail(), 
-        		saved.getDepartment().getName(), saved.getUser().getUsername());
+        		saved.getDepartment().getName());
 	}
 
 	@Override
@@ -64,7 +68,7 @@ public class TeacherServiceImpl implements TeacherService{
                 .orElseThrow(() -> new RuntimeException("Teacher not found!"));
 		
         return new TeacherResponseDTO(teacher.getTeacherId(), teacher.getName(), teacher.getEmail(), 
-        		teacher.getDepartment().getName(), teacher.getUser().getUsername());
+        		teacher.getDepartment().getName());
 	}
 
 	@Override
@@ -76,8 +80,7 @@ public class TeacherServiceImpl implements TeacherService{
                 		teacher.getTeacherId(),
                         teacher.getName(),
                         teacher.getEmail(),
-                        teacher.getDepartment().getName(),
-                        teacher.getUser().getUsername()))
+                        teacher.getDepartment().getName()))
                 .collect(Collectors.toList());
 	}
 
@@ -105,7 +108,7 @@ public class TeacherServiceImpl implements TeacherService{
         TeacherEntity saved = teacherRepository.save(teacher);
         
         return new TeacherResponseDTO(saved.getTeacherId(), saved.getName(), saved.getEmail(), 
-        		saved.getDepartment().getName(), saved.getUser().getUsername());
+        		saved.getDepartment().getName());
 	}
 
 	@Override

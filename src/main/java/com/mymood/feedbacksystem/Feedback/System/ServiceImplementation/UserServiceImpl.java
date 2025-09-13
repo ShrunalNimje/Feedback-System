@@ -91,10 +91,6 @@ public class UserServiceImpl implements UserService {
 		if(update.getRole() != null) {
 		    user.setRole(update.getRole());
 		}
-		
-		if(update.getUsername() != null) {
-		    user.setUsername(update.getUsername());
-		}
 
 	    UserEntity saved = userRepository.save(user);
         return new UserResponseDTO(saved.getUserId(), saved.getUsername(), saved.getRole());

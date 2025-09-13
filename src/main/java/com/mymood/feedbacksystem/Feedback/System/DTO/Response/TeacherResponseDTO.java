@@ -4,7 +4,6 @@ public class TeacherResponseDTO {
 
     private Long teacherId;
     private String name;
-    private String username; 
     private String email;
     private String departmentName;
 
@@ -12,12 +11,11 @@ public class TeacherResponseDTO {
     	
     }
 
-    public TeacherResponseDTO(Long teacherId, String name, String email, String departmentName, String username) {
+    public TeacherResponseDTO(Long teacherId, String name, String email, String departmentName) {
         this.teacherId = teacherId;
         this.name = name;
         this.email = email;
         this.departmentName = departmentName;
-        this.username = username;
     }
 
     public Long getTeacherId() {
@@ -51,13 +49,5 @@ public class TeacherResponseDTO {
     public void setDepartmentName(String departmentName) {
         this.departmentName = departmentName;
     }
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
     
 }

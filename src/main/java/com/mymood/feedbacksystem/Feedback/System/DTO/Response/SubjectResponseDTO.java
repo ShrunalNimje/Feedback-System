@@ -9,20 +9,31 @@ public class SubjectResponseDTO {
     private String subjectName;
     private SubjectType subjectType;
     private String departmentName;
+    private Integer semester;
 
     public SubjectResponseDTO() {
     	
     }
 
-    public SubjectResponseDTO(Long subjectId, String subjectCode, String subjectName, SubjectType subjectType, String departmentName) {
+    public SubjectResponseDTO(Long subjectId, String subjectCode, String subjectName, SubjectType subjectType, 
+    		String departmentName, Integer semester) {
         this.subjectId = subjectId;
         this.subjectCode = subjectCode;
         this.subjectName = subjectName;
         this.subjectType = subjectType;
         this.departmentName = departmentName;
+        this.semester = semester;
     }
 
-    public Long getSubjectId() {
+    public Integer getSemester() {
+		return semester;
+	}
+
+	public void setSemester(Integer semester) {
+		this.semester = semester;
+	}
+
+	public Long getSubjectId() {
         return subjectId;
     }
 

@@ -1,16 +1,34 @@
 package com.mymood.feedbacksystem.Feedback.System.DTO.Update;
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
+
 public class StudentUpdateDTO {
 
-	private String username;
-    private String password;
-    private String name;
-    private Integer rollNo;
-    private String email;
-    private Long batchId;
-    private String enrollmentId;
-    private Integer semester;
-    private Integer year;
+	private String password; 
+
+    @Size(max = 100, message = "Name can be up to 100 characters")
+    private String name;     
+
+    @Min(value = 1, message = "Roll number must be positive")
+    private Integer rollNo;  
+
+    @Email(message = "Email should be valid")
+    private String email;    
+
+    private Long batchId;    
+    
+    @Min(value = 1, message = "Semester must be positive")
+    private Integer semester; 
+
+    @Min(value = 1, message = "Year must be positive")
+    private Integer year;     
+
+    @DecimalMin(value = "0.0", message = "Attendance cannot be negative")
+    @DecimalMax(value = "100.0", message = "Attendance cannot exceed 100")
     private Float attendance;
 
     public StudentUpdateDTO() {
@@ -18,13 +36,11 @@ public class StudentUpdateDTO {
     }
 
     public StudentUpdateDTO(String name, Integer rollNo, String email, Long batchId, 
-    		String enrollmentId, String username, String password, Integer semester, Integer year, Float attendance) {
+    		String password, Integer semester, Integer year, Float attendance) {
         this.name = name;
         this.rollNo = rollNo;
         this.email = email;
         this.batchId = batchId;
-        this.enrollmentId = enrollmentId;
-        this.username = username;
         this.password = password;
         this.semester = semester;
         this.year = year;
@@ -53,14 +69,6 @@ public class StudentUpdateDTO {
 
 	public void setYear(Integer year) {
 		this.year = year;
-	}
-
-	public String getEnrollmentId() {
-		return enrollmentId;
-	}
-
-	public void setEnrollmentId(String enrollmentId) {
-		this.enrollmentId = enrollmentId;
 	}
 
 	public String getName() {
@@ -94,14 +102,6 @@ public class StudentUpdateDTO {
     public void setBatchId(Long batchId) {
         this.batchId = batchId;
     }
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
 	public String getPassword() {
 		return password;

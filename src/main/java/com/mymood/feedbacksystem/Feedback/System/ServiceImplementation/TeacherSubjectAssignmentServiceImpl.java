@@ -57,6 +57,13 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
                     .orElseThrow(() -> new RuntimeException("Batch not found!"));
         }
 
+        boolean exists = teacherSubjectAssignmentRepository.existsByTeacherAndSubjectAndSectionAndBatchAndYearAndSemester(
+        	    teacher, subject, section, batch, create.getYear(), create.getSemester());
+
+    	if (exists) {
+    	    throw new RuntimeException("This assignment already exists.");
+    	}
+
         TeacherSubjectAssignmentEntity assignment = new TeacherSubjectAssignmentEntity();
         assignment.setTeacher(teacher);
         assignment.setSubject(subject);

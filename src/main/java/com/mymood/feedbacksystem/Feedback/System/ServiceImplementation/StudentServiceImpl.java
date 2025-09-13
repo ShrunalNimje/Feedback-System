@@ -37,12 +37,16 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public StudentResponseDTO createStudent(StudentRequestDTO create) {
 		
+		if (userRepository.existsByUsername(create.getEnrollmentId())) {
+	        throw new RuntimeException("Enrollment ID already exists as username!");
+	    }
+		
 		BatchEntity batch = batchRepository.findById(create.getBatchId())
                 .orElseThrow(() -> new RuntimeException("Batch not found!"));
 
 		UserEntity user = new UserEntity();
 		user.setPassword(passwordEncoder.encode(create.getPassword()));
-		user.setUsername(create.getUsername());
+		user.setUsername(create.getEnrollmentId());
 		user.setRole(Role.STUDENT);
 		userRepository.save(user);
 		
@@ -68,7 +72,6 @@ public class StudentServiceImpl implements StudentService{
         		saved.getRollNo(),
         		saved.getEmail(),
         		saved.getBatch().getName(),
-        		saved.getUser().getUsername(),
         		saved.getEnrollmentId()
         );
 	}
@@ -85,7 +88,6 @@ public class StudentServiceImpl implements StudentService{
 				student.getRollNo(),
 				student.getEmail(),
         		student.getBatch().getName(),
-        		student.getUser().getUsername(),
         		student.getEnrollmentId()
         );
 	}
@@ -100,7 +102,6 @@ public class StudentServiceImpl implements StudentService{
         				student.getRollNo(),
         				student.getEmail(),
                 		student.getBatch().getName(),
-                		student.getUser().getUsername(),
                 		student.getEnrollmentId()
                 ))
                 .collect(Collectors.toList());
@@ -139,7 +140,6 @@ public class StudentServiceImpl implements StudentService{
         		saved.getRollNo(),
         		saved.getEmail(),
         		saved.getBatch().getName(),
-        		saved.getUser().getUsername(),
         		saved.getEnrollmentId()
         );
 	}
