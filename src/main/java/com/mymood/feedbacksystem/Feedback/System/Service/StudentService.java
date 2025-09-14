@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.StudentRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.StudentResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Response.TeacherSubjectResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Update.StudentUpdateDTO;
 
 public interface StudentService {
@@ -13,4 +14,5 @@ public interface StudentService {
     List<StudentResponseDTO> getAllStudent();
     StudentResponseDTO updateStudent(Long id, StudentUpdateDTO update);
     void deleteStudent(Long id);
+    List<TeacherSubjectResponseDTO> getAutoMappedFeedbackForm(String enrollmentId);
 }

@@ -1,6 +1,10 @@
 package com.mymood.feedbacksystem.Feedback.System.Repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.mymood.feedbacksystem.Feedback.System.Entity.BatchEntity;
@@ -14,5 +18,10 @@ public interface TeacherSubjectAssignmentRepository extends JpaRepository<Teache
 
 	boolean existsByTeacherAndSubjectAndSectionAndBatchAndYearAndSemester(TeacherEntity teacher, SubjectEntity subject,
 			SectionEntity section, BatchEntity batch, Integer year, Integer semester);
+
+	@Query("SELECT t FROM TeacherSubjectAssignmentEntity t WHERE t.section = :section AND t.batch = :batch")
+	List<TeacherSubjectAssignmentEntity> findBySectionAndBatch(@Param("section") SectionEntity section,
+	                                                           @Param("batch") BatchEntity batch);
+
 	
 }
