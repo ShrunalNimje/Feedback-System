@@ -9,13 +9,16 @@ import org.springframework.stereotype.Service;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.StudentRequestDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.StudentResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Response.TeacherSubjectResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Update.StudentUpdateDTO;
 import com.mymood.feedbacksystem.Feedback.System.Entity.BatchEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.StudentEntity;
+import com.mymood.feedbacksystem.Feedback.System.Entity.TeacherSubjectAssignmentEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.UserEntity;
 import com.mymood.feedbacksystem.Feedback.System.Enum.Role;
 import com.mymood.feedbacksystem.Feedback.System.Repository.BatchRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.StudentRepository;
+import com.mymood.feedbacksystem.Feedback.System.Repository.TeacherSubjectAssignmentRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.UserRepository;
 import com.mymood.feedbacksystem.Feedback.System.Service.StudentService;
 
@@ -33,6 +36,9 @@ public class StudentServiceImpl implements StudentService{
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	TeacherSubjectAssignmentRepository assignmentRepository;
 	
 	@Override
 	public StudentResponseDTO createStudent(StudentRequestDTO create) {
@@ -151,6 +157,30 @@ public class StudentServiceImpl implements StudentService{
 				() -> new RuntimeException("Student not found!"));
 		
 		studentRepository.deleteById(id);
+	}
+	
+	@Override
+	public List<TeacherSubjectResponseDTO> getAutoMappedFeedbackForm(String enrollmentId) {
+	    
+		StudentEntity student = studentRepository.findByEnrollmentId(enrollmentId)
+	            .orElseThrow(() -> new RuntimeException("Student not found"));
+
+	    List<TeacherSubjectAssignmentEntity> assignments =assignmentRepository.findBySectionAndBatch(
+	            student.getSection(), student.getBatch());
+
+	    return assignments.stream().map(
+	    		a -> new TeacherSubjectResponseDTO(
+	    				a.getTeacher().getName(),
+				        a.getSubject().getCode(),
+				        a.getSubject().getName(),
+				        a.getSubject().getType(),
+				        a.getSemester(),
+				        a.getBatch().getName(),
+				        a.getSection().getName(),
+				        a.getSection().getBranch().getName(),
+				        a.getSection().getBranch().getDepartment().getName()
+				        )).
+	    		collect(Collectors.toList());
 	}
 
 }

@@ -83,13 +83,13 @@ public class CustomCommandLineRunner implements CommandLineRunner{
         userRepository.save(admin);
         
         UserEntity teacher1 = new UserEntity();
-        teacher1.setUsername("teacher");
+        teacher1.setUsername("smith@example.com");
         teacher1.setPassword(passwordEncoder.encode("teacher123"));
         teacher1.setRole(Role.TEACHER);
         userRepository.save(teacher1);
         
         UserEntity student1 = new UserEntity();
-        student1.setUsername("student");
+        student1.setUsername("2022AAIE1101064");
         student1.setPassword(passwordEncoder.encode("student123"));
         student1.setRole(Role.STUDENT);
         userRepository.save(student1);
@@ -97,7 +97,7 @@ public class CustomCommandLineRunner implements CommandLineRunner{
         StudentEntity student = new StudentEntity();
         student.setName("John Doe");
         student.setEmail("john@example.com");
-        student.setEnrollmentId("ENR12345");
+        student.setEnrollmentId("2022AAIE1101064");
         student.setAttendancePercentage(85f);
         student.setBatch(batch);
         student.setBranch(branch);
