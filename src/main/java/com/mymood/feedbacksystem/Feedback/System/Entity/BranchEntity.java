@@ -1,5 +1,7 @@
 package com.mymood.feedbacksystem.Feedback.System.Entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,15 +27,27 @@ public class BranchEntity {
 	@JoinColumn(name = "department_id", nullable = false)
 	private DepartmentEntity department;
 	
+	@OneToMany(mappedBy = "branch")
+	private List<SectionEntity> sections;
+
 	public BranchEntity() {
 		
 	}
 
-	public BranchEntity(Long branchId, String name, DepartmentEntity department) {
+	public BranchEntity(Long branchId, String name, DepartmentEntity department, List<SectionEntity> sections) {
 		super();
 		this.branchId = branchId;
 		this.name = name;
 		this.department = department;
+		this.sections = sections;
+	}
+
+	public List<SectionEntity> getSections() {
+		return sections;
+	}
+
+	public void setSections(List<SectionEntity> sections) {
+		this.sections = sections;
 	}
 
 	public Long getBranchId() {

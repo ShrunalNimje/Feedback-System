@@ -1,5 +1,7 @@
 package com.mymood.feedbacksystem.Feedback.System.Entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,16 +26,29 @@ public class BatchEntity {
 	@ManyToOne
 	@JoinColumn(name = "section_id", nullable = false)
 	private SectionEntity section;
-	
+
+	@OneToMany(mappedBy = "batch")
+	private List<TeacherSubjectAssignmentEntity> assignments;
+
 	public BatchEntity() {
 		
 	}
 
-	public BatchEntity(Long batchId, String name, SectionEntity section) {
+	public BatchEntity(Long batchId, String name, SectionEntity section,
+			List<TeacherSubjectAssignmentEntity> assignments) {
 		super();
 		this.batchId = batchId;
 		this.name = name;
 		this.section = section;
+		this.assignments = assignments;
+	}
+
+	public List<TeacherSubjectAssignmentEntity> getAssignments() {
+		return assignments;
+	}
+
+	public void setAssignments(List<TeacherSubjectAssignmentEntity> assignments) {
+		this.assignments = assignments;
 	}
 
 	public SectionEntity getSection() {

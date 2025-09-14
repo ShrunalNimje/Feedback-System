@@ -1,5 +1,7 @@
 package com.mymood.feedbacksystem.Feedback.System.Entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,16 +26,41 @@ public class SectionEntity {
 	@ManyToOne
 	@JoinColumn(name = "branch_id", nullable = false)
 	private BranchEntity branch;
-	
+
+	@OneToMany(mappedBy = "section")
+	private List<BatchEntity> batches;
+
+	@OneToMany(mappedBy = "section")
+	private List<TeacherSubjectAssignmentEntity> assignments;
+
 	public SectionEntity() {
 		
 	}
 
-	public SectionEntity(Long sectionId, String name, BranchEntity branch) {
+	public SectionEntity(Long sectionId, String name, BranchEntity branch, List<BatchEntity> batches,
+			List<TeacherSubjectAssignmentEntity> assignments) {
 		super();
 		this.sectionId = sectionId;
 		this.name = name;
 		this.branch = branch;
+		this.batches = batches;
+		this.assignments = assignments;
+	}
+
+	public List<BatchEntity> getBatches() {
+		return batches;
+	}
+
+	public void setBatches(List<BatchEntity> batches) {
+		this.batches = batches;
+	}
+
+	public List<TeacherSubjectAssignmentEntity> getAssignments() {
+		return assignments;
+	}
+
+	public void setAssignments(List<TeacherSubjectAssignmentEntity> assignments) {
+		this.assignments = assignments;
 	}
 
 	public Long getSectionId() {
