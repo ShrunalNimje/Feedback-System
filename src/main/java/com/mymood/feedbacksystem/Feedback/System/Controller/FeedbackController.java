@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.FeedbackRequestDTO;
-import com.mymood.feedbacksystem.Feedback.System.DTO.Response.FeedbackResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Response.AnonymousFeedbackResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.Service.FeedbackService;
 
 import jakarta.validation.Valid;
@@ -28,25 +28,25 @@ public class FeedbackController {
     @PostMapping("/submit")
     @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<String> submitFeedback(@Valid @RequestBody FeedbackRequestDTO request) {
-        FeedbackResponseDTO saved = feedbackService.submitFeedback(request);
+        AnonymousFeedbackResponseDTO saved = feedbackService.submitFeedback(request);
         return ResponseEntity.ok("Feedback submitted successfully with id = " + saved.getFeedbackId());
     }
 
     @GetMapping("/student/{studentId}")
     @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
-    public List<FeedbackResponseDTO> getFeedbackByStudent(@PathVariable Long studentId) {
+    public List<AnonymousFeedbackResponseDTO> getFeedbackByStudent(@PathVariable Long studentId) {
         return feedbackService.getFeedbackByStudent(studentId);
     }
 
     @GetMapping("/teacher/{teacherId}")
     @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
-    public List<FeedbackResponseDTO> getFeedbackByTeacher(@PathVariable Long teacherId) {
+    public List<AnonymousFeedbackResponseDTO> getFeedbackByTeacher(@PathVariable Long teacherId) {
         return feedbackService.getFeedbackByTeacher(teacherId);
     }
 
     @GetMapping("/subject/{subjectId}")
     @PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
-    public List<FeedbackResponseDTO> getFeedbackBySubject(@PathVariable Long subjectId) {
+    public List<AnonymousFeedbackResponseDTO> getFeedbackBySubject(@PathVariable Long subjectId) {
         return feedbackService.getFeedbackBySubject(subjectId);
     }
 }
