@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,11 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mymood.feedbacksystem.Feedback.System.DTO.Analytics.AnalyticsResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.TeacherRequestDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Response.AnonymousFeedbackResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Response.TeacherResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.DTO.Update.TeacherUpdateDTO;
+import com.mymood.feedbacksystem.Feedback.System.Security.CustomUserDetails;
 import com.mymood.feedbacksystem.Feedback.System.Service.TeacherService;
 
 import jakarta.validation.Valid;
@@ -54,4 +59,29 @@ public class TeacherController {
         teacherService.deleteTeacher(teacherId);
         return ResponseEntity.ok("Teacher deleted successfully with id = " + teacherId);
     }
+    
+    @GetMapping("/analytics")
+    public ResponseEntity<AnalyticsResponseDTO> getTeacherAnalytics(
+            @RequestParam(required = false) Integer semester,
+            @RequestParam(required = false) Long subjectId,
+            @RequestParam(required = false) Integer year,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        Long teacherId = userDetails.getUserId();
+
+        AnalyticsResponseDTO analytics = teacherService.getTeacherAnalytics(teacherId, semester, subjectId, year);
+
+        return ResponseEntity.ok(analytics);
+    }
+	
+	@GetMapping("/feedback/anonymous")
+	public ResponseEntity<List<AnonymousFeedbackResponseDTO>> getAnonymousFeedback(
+	        @RequestParam(required = false) Long subjectId,
+	        @RequestParam(required = false) Integer semester,
+	        @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+	    Long teacherId = userDetails.getUserId();
+	    List<AnonymousFeedbackResponseDTO> feedbackList = teacherService.getAnonymousFeedback(teacherId, subjectId, semester);
+	    return ResponseEntity.ok(feedbackList);
+	}
 }
