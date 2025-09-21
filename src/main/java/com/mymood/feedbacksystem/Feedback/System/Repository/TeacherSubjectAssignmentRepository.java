@@ -23,5 +23,8 @@ public interface TeacherSubjectAssignmentRepository extends JpaRepository<Teache
 	List<TeacherSubjectAssignmentEntity> findBySectionAndBatch(@Param("section") SectionEntity section,
 	                                                           @Param("batch") BatchEntity batch);
 
+	@Query("SELECT a.subject FROM Assignment a WHERE a.teacher.id = :teacherId")
+	List<SubjectEntity> findSubjectsByTeacherId(@Param("teacherId") Long teacherId);
+
 	
 }
