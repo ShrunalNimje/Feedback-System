@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.FeedbackRequestDTO;
-import com.mymood.feedbacksystem.Feedback.System.DTO.Response.FeedbackResponseDTO;
+import com.mymood.feedbacksystem.Feedback.System.DTO.Response.AnonymousFeedbackResponseDTO;
 import com.mymood.feedbacksystem.Feedback.System.Entity.FeedbackEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.StudentEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.SubjectEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.TeacherEntity;
+import com.mymood.feedbacksystem.Feedback.System.Location.GeoUtils;
 import com.mymood.feedbacksystem.Feedback.System.Repository.FeedbackRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.StudentRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.SubjectRepository;
@@ -35,14 +36,9 @@ public class FeedbackServiceImpl implements FeedbackService{
     SubjectRepository subjectRepository;
 	
 	private static final float MIN_ATTENDANCE = 75.0f;
-	
-	private static final double MIN_LAT = 21.090;
-    private static final double MAX_LAT = 21.110;
-    private static final double MIN_LONG = 79.010;
-    private static final double MAX_LONG = 79.030;
     
 	@Override
-	public FeedbackResponseDTO submitFeedback(FeedbackRequestDTO submit) {
+	public AnonymousFeedbackResponseDTO submitFeedback(FeedbackRequestDTO submit) {
 		
         StudentEntity student = studentRepository.findById(submit.getStudentId())
                 .orElseThrow(() -> new RuntimeException("Student not found!"));
@@ -57,9 +53,14 @@ public class FeedbackServiceImpl implements FeedbackService{
             throw new RuntimeException("Student attendance below required threshold!");
         }
 
-        if (submit.getLatitude() < MIN_LAT || submit.getLatitude() > MAX_LAT
-                || submit.getLongitude() < MIN_LONG || submit.getLongitude() > MAX_LONG) {
-            throw new RuntimeException("Feedback can only be submitted inside college premises!");
+        double collegeLat = 21.105260;
+        double collegeLng = 79.003490;
+        
+        double distance = GeoUtils.calculateDistance(
+        		submit.getLatitude(), submit.getLongitude(), collegeLat, collegeLng);
+
+        if (distance > 0.5) {
+            throw new RuntimeException("Feedback can only be submitted from within college premises.");
         }
 
         Optional<FeedbackEntity> existing = feedbackRepository.findByStudentAndTeacherAndSubjectAndSemester(
@@ -84,9 +85,8 @@ public class FeedbackServiceImpl implements FeedbackService{
 
         FeedbackEntity saved = feedbackRepository.save(entity);
 
-        return new FeedbackResponseDTO(
+        return new AnonymousFeedbackResponseDTO(
                 saved.getFeedbackId(),
-                saved.getStudent().getName(),
                 saved.getTeacher().getName(),
                 saved.getSubject().getName(),
                 saved.getSemester(),
@@ -94,16 +94,15 @@ public class FeedbackServiceImpl implements FeedbackService{
 	}
 
 	@Override
-	public List<FeedbackResponseDTO> getFeedbackByStudent(Long studentId) {
+	public List<AnonymousFeedbackResponseDTO> getFeedbackByStudent(Long studentId) {
 	    
 		studentRepository.findById(studentId)
 	            .orElseThrow(() -> new RuntimeException("Student not found!"));
 
 	    return feedbackRepository.findByStudent_StudentId(studentId)
 	            .stream()
-	            .map(feedback -> new FeedbackResponseDTO(
+	            .map(feedback -> new AnonymousFeedbackResponseDTO(
 	                    feedback.getFeedbackId(),
-	                    feedback.getStudent().getName(),
 	                    feedback.getTeacher().getName(),
 	                    feedback.getSubject().getName(),
 	                    feedback.getSemester(),
@@ -112,16 +111,15 @@ public class FeedbackServiceImpl implements FeedbackService{
 	}
 
 	@Override
-	public List<FeedbackResponseDTO> getFeedbackByTeacher(Long teacherId) {
+	public List<AnonymousFeedbackResponseDTO> getFeedbackByTeacher(Long teacherId) {
 		
 		teacherRepository.findById(teacherId).orElseThrow(
 				() -> new RuntimeException("Teacher not found!"));
 		
 		return feedbackRepository.findByTeacher_TeacherId(teacherId)
                 .stream()
-                .map(feedback -> new FeedbackResponseDTO(
+                .map(feedback -> new AnonymousFeedbackResponseDTO(
                 		feedback.getFeedbackId(),
-                		feedback.getStudent().getName(),
                 		feedback.getTeacher().getName(),
                 		feedback.getSubject().getName(),
                 		feedback.getSemester(),
@@ -130,16 +128,15 @@ public class FeedbackServiceImpl implements FeedbackService{
 	}
 
 	@Override
-	public List<FeedbackResponseDTO> getFeedbackBySubject(Long subjectId) {
+	public List<AnonymousFeedbackResponseDTO> getFeedbackBySubject(Long subjectId) {
 		
 		subjectRepository.findById(subjectId).orElseThrow(
 				() -> new RuntimeException("Subject not found!"));
 
 		return feedbackRepository.findBySubject_SubjectId(subjectId)
                 .stream()
-                .map(feedback -> new FeedbackResponseDTO(
+                .map(feedback -> new AnonymousFeedbackResponseDTO(
                 		feedback.getFeedbackId(),
-                		feedback.getStudent().getName(),
                 		feedback.getTeacher().getName(),
                 		feedback.getSubject().getName(),
                 		feedback.getSemester(),
