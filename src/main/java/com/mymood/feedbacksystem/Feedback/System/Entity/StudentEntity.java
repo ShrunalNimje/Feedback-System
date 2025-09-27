@@ -33,9 +33,6 @@ public class StudentEntity {
 	private String email;
 	
 	@Column(nullable = false)
-	private Integer year;
-	
-	@Column(nullable = false)
 	private Integer semester;
 	
 	@Column(nullable = false)
@@ -65,7 +62,7 @@ public class StudentEntity {
 		
 	}
 
-	public StudentEntity(Long studentId, String enrollmentId, String name, String email, Integer year, Integer semester,
+	public StudentEntity(Long studentId, String enrollmentId, String name, String email, Integer semester,
 			Float attendancePercentage, DepartmentEntity department, BranchEntity branch, SectionEntity section,
 			BatchEntity batch, UserEntity user, Integer roleNo) {
 		super();
@@ -73,7 +70,6 @@ public class StudentEntity {
 		this.enrollmentId = enrollmentId;
 		this.name = name;
 		this.email = email;
-		this.year = year;
 		this.semester = semester;
 		this.attendancePercentage = attendancePercentage;
 		this.department = department;
@@ -122,14 +118,6 @@ public class StudentEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Integer getYear() {
-		return year;
-	}
-
-	public void setYear(Integer year) {
-		this.year = year;
 	}
 
 	public Integer getSemester() {

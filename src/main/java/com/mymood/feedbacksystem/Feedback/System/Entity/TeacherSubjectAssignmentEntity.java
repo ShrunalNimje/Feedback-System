@@ -34,22 +34,18 @@ public class TeacherSubjectAssignmentEntity {
 	private BatchEntity batch;
 	
 	@Column(nullable = false)
-	private Integer year;
-	
-	@Column(nullable = false)
 	private Integer semester;
 	
 	public TeacherSubjectAssignmentEntity() {
 		
 	}
 
-	public TeacherSubjectAssignmentEntity(Long teacherSubjectAssignmentId, TeacherEntity teacher, SubjectEntity subject,
-			Integer year, Integer semester, SectionEntity section, BatchEntity batch) {
+	public TeacherSubjectAssignmentEntity(Long teacherSubjectAssignmentId, TeacherEntity teacher, SubjectEntity subject, 
+			Integer semester, SectionEntity section, BatchEntity batch) {
 		super();
 		this.teacherSubjectAssignmentId = teacherSubjectAssignmentId;
 		this.teacher = teacher;
 		this.subject = subject;
-		this.year = year;
 		this.semester = semester;
 		this.section = section;
 		this.batch = batch;
@@ -77,14 +73,6 @@ public class TeacherSubjectAssignmentEntity {
 
 	public void setSubject(SubjectEntity subject) {
 		this.subject = subject;
-	}
-
-	public Integer getYear() {
-		return year;
-	}
-
-	public void setYear(Integer year) {
-		this.year = year;
 	}
 
 	public Integer getSemester() {

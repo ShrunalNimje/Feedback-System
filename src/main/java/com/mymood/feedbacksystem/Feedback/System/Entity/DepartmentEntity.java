@@ -22,6 +22,10 @@ public class DepartmentEntity {
 		
 	}
 	
+	public DepartmentEntity(String name) {
+	    this.name = name;
+	}
+
 	public DepartmentEntity(Long departmentId, String name) {
 		super();
 		this.departmentId = departmentId;

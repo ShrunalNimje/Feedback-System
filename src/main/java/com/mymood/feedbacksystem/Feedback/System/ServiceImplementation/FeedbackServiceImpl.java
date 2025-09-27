@@ -13,12 +13,15 @@ import com.mymood.feedbacksystem.Feedback.System.Entity.FeedbackEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.StudentEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.SubjectEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.TeacherEntity;
+import com.mymood.feedbacksystem.Feedback.System.Enum.Role;
 import com.mymood.feedbacksystem.Feedback.System.Location.GeoUtils;
 import com.mymood.feedbacksystem.Feedback.System.Repository.FeedbackRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.StudentRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.SubjectRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.TeacherRepository;
 import com.mymood.feedbacksystem.Feedback.System.Service.FeedbackService;
+
+import io.jsonwebtoken.lang.Collections;
 
 @Service
 public class FeedbackServiceImpl implements FeedbackService{
@@ -94,13 +97,22 @@ public class FeedbackServiceImpl implements FeedbackService{
 	}
 
 	@Override
-	public List<AnonymousFeedbackResponseDTO> getFeedbackByStudent(Long studentId) {
+	public List<AnonymousFeedbackResponseDTO> getFeedbackByStudent(Long studentId, Long loggedInUserId, String roleStr) {
 	    
+		Role role = Role.valueOf(roleStr);
+		
 		studentRepository.findById(studentId)
 	            .orElseThrow(() -> new RuntimeException("Student not found!"));
 
-	    return feedbackRepository.findByStudent_StudentId(studentId)
-	            .stream()
+	    List<FeedbackEntity> feedbacks = feedbackRepository.findByStudent_StudentId(studentId);
+	    
+	    if (role == Role.TEACHER) {
+	        feedbacks = feedbacks.stream()
+	                .filter(f -> f.getTeacher().getUser().getUserId().equals(loggedInUserId))
+	                .collect(Collectors.toList());
+	    }
+	    
+	    return feedbacks.stream()
 	            .map(feedback -> new AnonymousFeedbackResponseDTO(
 	                    feedback.getFeedbackId(),
 	                    feedback.getTeacher().getName(),
@@ -111,13 +123,23 @@ public class FeedbackServiceImpl implements FeedbackService{
 	}
 
 	@Override
-	public List<AnonymousFeedbackResponseDTO> getFeedbackByTeacher(Long teacherId) {
+	public List<AnonymousFeedbackResponseDTO> getFeedbackByTeacher(Long teacherId, 
+			Long loggedInUserId, String roleStr) {
 		
-		teacherRepository.findById(teacherId).orElseThrow(
-				() -> new RuntimeException("Teacher not found!"));
+		Role role = Role.valueOf(roleStr);
+
+	    TeacherEntity teacher = teacherRepository.findById(teacherId)
+	            .orElseThrow(() -> new RuntimeException("Teacher not found!"));
+
+	    List<FeedbackEntity> feedbacks = feedbackRepository.findByTeacher_TeacherId(teacherId);
+
+	    if (role == Role.TEACHER) {
+	        if (!teacher.getUser().getUserId().equals(loggedInUserId)) {
+	            feedbacks = Collections.emptyList();
+	        }
+	    }
 		
-		return feedbackRepository.findByTeacher_TeacherId(teacherId)
-                .stream()
+		return feedbacks.stream()
                 .map(feedback -> new AnonymousFeedbackResponseDTO(
                 		feedback.getFeedbackId(),
                 		feedback.getTeacher().getName(),
@@ -128,13 +150,26 @@ public class FeedbackServiceImpl implements FeedbackService{
 	}
 
 	@Override
-	public List<AnonymousFeedbackResponseDTO> getFeedbackBySubject(Long subjectId) {
+	public List<AnonymousFeedbackResponseDTO> getFeedbackBySubject(Long subjectId, Long loggedInUserId, String roleStr) {
+		
+		Role role = Role.valueOf(roleStr);
+		
+		subjectRepository.findById(subjectId)
+        .orElseThrow(() -> new RuntimeException("Subject not found!"));
+
+		List<FeedbackEntity> feedbackList;
+		
+		if (role == Role.TEACHER) {
+		    feedbackList = feedbackRepository.findBySubject_SubjectIdAndTeacher_User_UserId(subjectId, loggedInUserId);
+		}
+		else {
+		    feedbackList = feedbackRepository.findBySubject_SubjectId(subjectId);
+		}
 		
 		subjectRepository.findById(subjectId).orElseThrow(
 				() -> new RuntimeException("Subject not found!"));
 
-		return feedbackRepository.findBySubject_SubjectId(subjectId)
-                .stream()
+		return feedbackList.stream()
                 .map(feedback -> new AnonymousFeedbackResponseDTO(
                 		feedback.getFeedbackId(),
                 		feedback.getTeacher().getName(),

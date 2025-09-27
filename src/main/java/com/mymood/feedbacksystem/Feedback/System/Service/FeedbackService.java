@@ -9,9 +9,9 @@ public interface FeedbackService {
 
 	AnonymousFeedbackResponseDTO submitFeedback(FeedbackRequestDTO submit);
 
-    List<AnonymousFeedbackResponseDTO> getFeedbackByStudent(Long studentId);
+    List<AnonymousFeedbackResponseDTO> getFeedbackByStudent(Long studentId, Long loggedInUserId, String roleStr);
 
-    List<AnonymousFeedbackResponseDTO> getFeedbackByTeacher(Long teacherId);
+    List<AnonymousFeedbackResponseDTO> getFeedbackByTeacher(Long teacherId, Long loggedInUserId, String roleStr);
 
-    List<AnonymousFeedbackResponseDTO> getFeedbackBySubject(Long subjectId);
+    List<AnonymousFeedbackResponseDTO> getFeedbackBySubject(Long subjectId, Long loggedInUserId, String roleStr);
 }

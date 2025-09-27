@@ -37,6 +37,10 @@ public class SectionEntity {
 		
 	}
 
+	public SectionEntity(String name) {
+		this.name = name;
+	}
+	
 	public SectionEntity(Long sectionId, String name, BranchEntity branch, List<BatchEntity> batches,
 			List<TeacherSubjectAssignmentEntity> assignments) {
 		super();

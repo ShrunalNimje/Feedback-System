@@ -16,10 +16,6 @@ public class TeacherSubjectAssignmentRequestDTO {
 
     private Long batchId;
 
-    @NotNull(message = "Year is required")
-    @Min(value = 1, message = "Year must be at least 1")
-    private Integer year;
-
     @NotNull(message = "Semester is required")
     @Min(value = 1, message = "Semester must be at least 1")
     private Integer semester;
@@ -28,14 +24,12 @@ public class TeacherSubjectAssignmentRequestDTO {
     	
 	}
     
-    public TeacherSubjectAssignmentRequestDTO(Long teacherId, Long subjectId, Long sectionId, Long batchId,
-			Integer year, Integer semester) {
+    public TeacherSubjectAssignmentRequestDTO(Long teacherId, Long subjectId, Long sectionId, Long batchId, Integer semester) {
 		super();
 		this.teacherId = teacherId;
 		this.subjectId = subjectId;
 		this.sectionId = sectionId;
 		this.batchId = batchId;
-		this.year = year;
 		this.semester = semester;
 	}
     
@@ -69,14 +63,6 @@ public class TeacherSubjectAssignmentRequestDTO {
     
     public void setBatchId(Long batchId) {
         this.batchId = batchId;
-    }
-    
-    public Integer getYear() {
-        return year;
-    }
-    
-    public void setYear(Integer year) {
-        this.year = year;
     }
     
     public Integer getSemester() {

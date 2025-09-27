@@ -7,7 +7,6 @@ public class TeacherSubjectAssignmentResponseDTO {
     private Long subjectId;
     private Long sectionId;
     private Long batchId;
-    private Integer year;
     private Integer semester;
 
     public TeacherSubjectAssignmentResponseDTO() {
@@ -15,14 +14,13 @@ public class TeacherSubjectAssignmentResponseDTO {
 	}
     
     public TeacherSubjectAssignmentResponseDTO(Long teacherSubjectAssignmentId, Long teacherId, Long subjectId,
-			Long sectionId, Long batchId, Integer year, Integer semester) {
+			Long sectionId, Long batchId, Integer semester) {
 		super();
 		this.teacherSubjectAssignmentId = teacherSubjectAssignmentId;
 		this.teacherId = teacherId;
 		this.subjectId = subjectId;
 		this.sectionId = sectionId;
 		this.batchId = batchId;
-		this.year = year;
 		this.semester = semester;
 	}
 
@@ -64,14 +62,6 @@ public class TeacherSubjectAssignmentResponseDTO {
     
     public void setBatchId(Long batchId) {
         this.batchId = batchId;
-    }
-    
-    public Integer getYear() {
-        return year;
-    }
-    
-    public void setYear(Integer year) {
-        this.year = year;
     }
     
     public Integer getSemester() {

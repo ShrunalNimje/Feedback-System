@@ -30,9 +30,6 @@ public class StudentRequestDTO {
     @NotNull(message = "Semester is required")
     private Integer semester;
 
-    @NotNull(message = "Year is required")
-    private Integer year;
-
     @NotNull(message = "Attendance percentage is required")
     @DecimalMin(value = "0.0", message = "Attendance cannot be less than 0")
     @DecimalMax(value = "100.0", message = "Attendance cannot be more than 100")
@@ -43,7 +40,7 @@ public class StudentRequestDTO {
     }
 
     public StudentRequestDTO(String name, Integer rollNo, String email, Long batchId, 
-    		String enrollmentId, String password, Integer semester, Integer year, Float attendance) {
+    		String enrollmentId, String password, Integer semester, Float attendance) {
         this.name = name;
         this.rollNo = rollNo;
         this.email = email;
@@ -51,7 +48,6 @@ public class StudentRequestDTO {
         this.enrollmentId = enrollmentId;
         this.password = password;
         this.semester = semester;
-        this.year = year;
         this.attendance = attendance;
     }
 
@@ -69,14 +65,6 @@ public class StudentRequestDTO {
 
 	public void setSemester(Integer semester) {
 		this.semester = semester;
-	}
-
-	public Integer getYear() {
-		return year;
-	}
-
-	public void setYear(Integer year) {
-		this.year = year;
 	}
 
 	public String getEnrollmentId() {

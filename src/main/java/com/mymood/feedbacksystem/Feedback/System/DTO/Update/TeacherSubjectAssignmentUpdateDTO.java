@@ -11,10 +11,7 @@ public class TeacherSubjectAssignmentUpdateDTO {
 
     private Long sectionId;    
 
-    private Long batchId;    
-
-    @Min(value = 1, message = "Year must be positive")
-    private Integer year;    
+    private Long batchId;      
 
     @Min(value = 1, message = "Semester must be positive")
     @Max(value = 12, message = "Semester cannot exceed 12")
@@ -24,14 +21,12 @@ public class TeacherSubjectAssignmentUpdateDTO {
     	
 	}
     
-    public TeacherSubjectAssignmentUpdateDTO(Long teacherId, Long subjectId, Long sectionId, Long batchId,
-			Integer year, Integer semester) {
+    public TeacherSubjectAssignmentUpdateDTO(Long teacherId, Long subjectId, Long sectionId, Long batchId, Integer semester) {
 		super();
 		this.teacherId = teacherId;
 		this.subjectId = subjectId;
 		this.sectionId = sectionId;
 		this.batchId = batchId;
-		this.year = year;
 		this.semester = semester;
 	}
     
@@ -65,14 +60,6 @@ public class TeacherSubjectAssignmentUpdateDTO {
     
     public void setBatchId(Long batchId) {
         this.batchId = batchId;
-    }
-    
-    public Integer getYear() {
-        return year;
-    }
-    
-    public void setYear(Integer year) {
-        this.year = year;
     }
     
     public Integer getSemester() {

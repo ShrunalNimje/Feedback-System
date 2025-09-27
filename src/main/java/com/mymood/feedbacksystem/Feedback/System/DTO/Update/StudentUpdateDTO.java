@@ -22,10 +22,7 @@ public class StudentUpdateDTO {
     private Long batchId;    
     
     @Min(value = 1, message = "Semester must be positive")
-    private Integer semester; 
-
-    @Min(value = 1, message = "Year must be positive")
-    private Integer year;     
+    private Integer semester;   
 
     @DecimalMin(value = "0.0", message = "Attendance cannot be negative")
     @DecimalMax(value = "100.0", message = "Attendance cannot exceed 100")
@@ -36,14 +33,13 @@ public class StudentUpdateDTO {
     }
 
     public StudentUpdateDTO(String name, Integer rollNo, String email, Long batchId, 
-    		String password, Integer semester, Integer year, Float attendance) {
+    		String password, Integer semester, Float attendance) {
         this.name = name;
         this.rollNo = rollNo;
         this.email = email;
         this.batchId = batchId;
         this.password = password;
         this.semester = semester;
-        this.year = year;
         this.attendance = attendance;
     }
 
@@ -61,14 +57,6 @@ public class StudentUpdateDTO {
 
 	public void setSemester(Integer semester) {
 		this.semester = semester;
-	}
-
-	public Integer getYear() {
-		return year;
-	}
-
-	public void setYear(Integer year) {
-		this.year = year;
 	}
 
 	public String getName() {

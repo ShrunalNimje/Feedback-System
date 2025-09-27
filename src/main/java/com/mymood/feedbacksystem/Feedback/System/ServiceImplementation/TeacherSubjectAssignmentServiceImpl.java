@@ -57,8 +57,8 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
                     .orElseThrow(() -> new RuntimeException("Batch not found!"));
         }
 
-        boolean exists = teacherSubjectAssignmentRepository.existsByTeacherAndSubjectAndSectionAndBatchAndYearAndSemester(
-        	    teacher, subject, section, batch, create.getYear(), create.getSemester());
+        boolean exists = teacherSubjectAssignmentRepository.existsByTeacherAndSubjectAndSectionAndBatchAndSemester(
+        	    teacher, subject, section, batch, create.getSemester());
 
     	if (exists) {
     	    throw new RuntimeException("This assignment already exists.");
@@ -69,7 +69,6 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
         assignment.setSubject(subject);
         assignment.setSection(section);
         assignment.setBatch(batch);
-        assignment.setYear(create.getYear());
         assignment.setSemester(create.getSemester());
 
         TeacherSubjectAssignmentEntity saved = teacherSubjectAssignmentRepository.save(assignment);
@@ -80,7 +79,6 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
                 saved.getSubject().getSubjectId(),
                 saved.getSection().getSectionId(),
                 saved.getBatch() != null ? saved.getBatch().getBatchId() : null,
-                saved.getYear(),
                 saved.getSemester());
 	}
 
@@ -96,7 +94,6 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
 				assignment.getSubject().getSubjectId(),
 				assignment.getSection().getSectionId(),
 				assignment.getBatch() != null ? assignment.getBatch().getBatchId() : null,
-				assignment.getYear(),
 				assignment.getSemester());
 	}
 
@@ -111,7 +108,6 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
         				assignment.getSubject().getSubjectId(),
         				assignment.getSection().getSectionId(),
         				assignment.getBatch() != null ? assignment.getBatch().getBatchId() : null,
-        				assignment.getYear(),
         				assignment.getSemester()))
                 .collect(Collectors.toList());
 	}
@@ -148,11 +144,7 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
             batch = batchRepository.findById(update.getBatchId())
                     .orElseThrow(() -> new RuntimeException("Batch not found!"));
         }
-        assignment.setBatch(batch);
-        
-        if (update.getYear() != null) {
-            assignment.setYear(update.getYear());
-        }    
+        assignment.setBatch(batch);  
         
         if (update.getSemester() != null) {
             assignment.setSemester(update.getSemester());
@@ -166,7 +158,6 @@ public class TeacherSubjectAssignmentServiceImpl implements TeacherSubjectAssign
         		updated.getSubject().getSubjectId(),
         		updated.getSection().getSectionId(),
         		updated.getBatch() != null ? updated.getBatch().getBatchId() : null,
-        		updated.getYear(),
         		updated.getSemester());
 	}
 

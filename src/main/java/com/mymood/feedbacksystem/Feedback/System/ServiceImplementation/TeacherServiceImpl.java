@@ -24,9 +24,11 @@ import com.mymood.feedbacksystem.Feedback.System.Entity.TeacherEntity;
 import com.mymood.feedbacksystem.Feedback.System.Entity.UserEntity;
 import com.mymood.feedbacksystem.Feedback.System.Enum.Role;
 import com.mymood.feedbacksystem.Feedback.System.Enum.SubjectType;
+import com.mymood.feedbacksystem.Feedback.System.Repository.BatchRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.DepartmentRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.FeedbackRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.StudentRepository;
+import com.mymood.feedbacksystem.Feedback.System.Repository.SubjectRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.TeacherRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.TeacherSubjectAssignmentRepository;
 import com.mymood.feedbacksystem.Feedback.System.Repository.UserRepository;
@@ -52,6 +54,12 @@ public class TeacherServiceImpl implements TeacherService{
     
     @Autowired
     StudentRepository studentRepository;
+    
+    @Autowired
+    SubjectRepository subjectRepository;
+    
+    @Autowired
+    BatchRepository batchRepository;
     
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -143,51 +151,79 @@ public class TeacherServiceImpl implements TeacherService{
 	}
 
 	@Override
-    public AnalyticsResponseDTO getTeacherAnalytics(Long teacherId, Integer semester, Long subjectId, Integer year) {
+	public List<AnalyticsResponseDTO> getTeacherAnalytics(Long teacherId, Integer semester, Long subjectId) {
 
-        List<SubjectEntity> subjects = assignmentRepository.findSubjectsByTeacherId(teacherId);
+	    List<TeacherEntity> teachers;
+	    
+	    if (teacherId != null) {
+	        TeacherEntity teacher = teacherRepository.findById(teacherId)
+	                .orElseThrow(() -> new RuntimeException("Teacher not found"));
+	        teachers = List.of(teacher);
+	    } 
+	    else {
+	        teachers = teacherRepository.findAll();
+	    }
 
-        List<SubjectAnalyticsDTO> subjectAnalyticsList = new ArrayList<>();
+	    List<AnalyticsResponseDTO> analyticsList = new ArrayList<>();
 
-        for (SubjectEntity subject : subjects) {
-            if (subjectId != null && !subject.getSubjectId().equals(subjectId)) continue;
+	    for (TeacherEntity teacher : teachers) {
+	        List<SubjectEntity> subjects = assignmentRepository.findSubjectsByTeacherId(teacher.getTeacherId());
+	        List<SubjectAnalyticsDTO> subjectAnalyticsList = new ArrayList<>();
 
-            List<SectionAverageDTO> sectionAverages = new ArrayList<>();
-            List<BatchAverageDTO> batchAverages = new ArrayList<>();
-            List<QuestionAverageDTO> questionAverages = new ArrayList<>();
+	        for (SubjectEntity subject : subjects) {
+	            if (subjectId != null && !subject.getSubjectId().equals(subjectId)) continue;
 
-            if (SubjectType.THEORY.equals(subject.getType())) {
-                sectionAverages = feedbackRepository.findAverageBySection(subject.getSubjectId());
-            } 
-            
-            else if (SubjectType.PRACTICAL.equals(subject.getType())) {
-                batchAverages = feedbackRepository.findAverageByBatch(subject.getSubjectId());
-            }
+	            List<SectionAverageDTO> sectionAverages = new ArrayList<>();
+	            List<BatchAverageDTO> batchAverages = new ArrayList<>();
+	            List<QuestionAverageDTO> questionAverages = new ArrayList<>();
 
-            questionAverages = feedbackRepository.findQuestionWiseAverage(subject.getSubjectId());
+	            if (SubjectType.THEORY.equals(subject.getType())) {
+	                sectionAverages = feedbackRepository.findAverageBySection(subject.getSubjectId());
+	            } 
+	            else if (SubjectType.PRACTICAL.equals(subject.getType())) {
+	                batchAverages = feedbackRepository.findAverageByBatch(subject.getSubjectId());
+	            }
 
-            SubjectAnalyticsDTO analyticsDTO = new SubjectAnalyticsDTO(
-                    subject.getSubjectId(),
-                    subject.getName(),
-                    subject.getType(),
-                    sectionAverages,
-                    batchAverages,
-                    questionAverages
-            );
+	            questionAverages = List.of(
+	                feedbackRepository.findAverageQuestion1(subject.getSubjectId()),
+	                feedbackRepository.findAverageQuestion2(subject.getSubjectId()),
+	                feedbackRepository.findAverageQuestion3(subject.getSubjectId()),
+	                feedbackRepository.findAverageQuestion4(subject.getSubjectId()),
+	                feedbackRepository.findAverageQuestion5(subject.getSubjectId())
+	            );
 
-            subjectAnalyticsList.add(analyticsDTO);
-        }
+	            SubjectAnalyticsDTO analyticsDTO = new SubjectAnalyticsDTO(
+	                subject.getSubjectId(),
+	                subject.getName(),
+	                subject.getType(),
+	                sectionAverages,
+	                batchAverages,
+	                questionAverages
+	            );
 
-        return new AnalyticsResponseDTO(teacherId, subjectAnalyticsList);
-    }
+	            subjectAnalyticsList.add(analyticsDTO);
+	        }
+	        analyticsList.add(new AnalyticsResponseDTO(teacher.getTeacherId(), subjectAnalyticsList));
+	    }
+	    return analyticsList;
+	}
+
 	
 	@Override
-	public List<AnonymousFeedbackResponseDTO> getAnonymousFeedback(Long teacherId, Long subjectId, Integer semester) {
-	    return feedbackRepository.findAnonymousFeedback(subjectId, teacherId, semester);
+	public List<AnonymousFeedbackResponseDTO> getAnonymousFeedback(Long subjectId, Integer semester) {
+		return feedbackRepository.findAnonymousFeedback(subjectId, semester);
 	}
 	
 	@Override
 	public List<SubmissionStatusDTO> getFeedbackSubmissionStatus(Long subjectId, Integer semester, Long batchId) {
+		
+		if (!subjectRepository.existsById(subjectId)) {
+	        throw new RuntimeException("Subject not found with ID: " + subjectId);
+	    }
+
+	    if (!batchRepository.existsById(batchId)) {
+	        throw new RuntimeException("Batch not found with ID: " + batchId);
+	    }
 	    return studentRepository.getFeedbackSubmissionStatus(subjectId, semester, batchId);
 	}
 
