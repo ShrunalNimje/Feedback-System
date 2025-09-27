@@ -17,8 +17,8 @@ public interface TeacherService {
     TeacherResponseDTO updateTeacher(Long id, TeacherUpdateDTO update);
     void deleteTeacher(Long id);
     
-    AnalyticsResponseDTO getTeacherAnalytics(Long teacherId, Integer semester, Long subjectId, Integer year);
-    List<AnonymousFeedbackResponseDTO> getAnonymousFeedback(Long teacherId, Long subjectId, Integer semester);
+    List<AnalyticsResponseDTO> getTeacherAnalytics(Long teacherId, Integer semester, Long subjectId);
+    List<AnonymousFeedbackResponseDTO> getAnonymousFeedback(Long subjectId, Integer semester);
     List<SubmissionStatusDTO> getFeedbackSubmissionStatus(Long subjectId, Integer semester, Long batchId);
 
 }

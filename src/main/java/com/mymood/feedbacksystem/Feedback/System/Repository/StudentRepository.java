@@ -17,16 +17,16 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long>{
 	Optional<StudentEntity> findByEnrollmentId(String enrollmentId);
 	
 	@Query("""
-		    SELECT new com.mymood.feedbacksystem.dto.response.SubmissionStatusDTO(
+		    SELECT new com.mymood.feedbacksystem.Feedback.System.DTO.Response.SubmissionStatusDTO(
 		        s.enrollmentId,
-		        CASE WHEN f.id IS NOT NULL THEN true ELSE false END
+		        CASE WHEN f.feedbackId IS NOT NULL THEN true ELSE false END
 		    )
 		    FROM StudentEntity s
 		    LEFT JOIN FeedbackEntity f
-		        ON f.student.id = s.id
-		        AND f.subject.id = :subjectId
+		        ON f.student.studentId = s.studentId
+		        AND f.subject.subjectId = :subjectId
 		        AND f.semester = :semester
-		    WHERE s.batch.id = :batchId
+		    WHERE s.batch.batchId = :batchId
 		""")
 		List<SubmissionStatusDTO> getFeedbackSubmissionStatus(
 		        @Param("subjectId") Long subjectId,

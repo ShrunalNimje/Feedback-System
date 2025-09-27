@@ -29,33 +29,75 @@ public interface FeedbackRepository extends JpaRepository<FeedbackEntity, Long>{
     
     List<FeedbackEntity> findBySubject_SubjectId(Long subjectId);
     
-    @Query("SELECT new com.mymood.feedbacksystem.dto.AnonymousFeedbackResponseDTO(" +
-    	       "f.id, f.teacher.name, f.subject.name, f.semester, f.submittedAt) " +
+    List<FeedbackEntity> findBySubject_SubjectIdAndTeacher_User_UserId(Long subjectId, Long userId);
+
+    
+    @Query("SELECT new com.mymood.feedbacksystem.Feedback.System.DTO.Response.AnonymousFeedbackResponseDTO(" +
+    	       "f.feedbackId, f.teacher.name, f.subject.name, f.semester, f.submittedAt) " +
     	       "FROM FeedbackEntity f " +
-    	       "WHERE (:subjectId IS NULL OR f.subject.id = :subjectId) " +
-    	       "AND (:teacherId IS NULL OR f.teacher.id = :teacherId) " +
+    	       "WHERE (:subjectId IS NULL OR f.subject.subjectId = :subjectId) " +
     	       "AND (:semester IS NULL OR f.semester = :semester)")
     	List<AnonymousFeedbackResponseDTO> findAnonymousFeedback(
     	       @Param("subjectId") Long subjectId,
-    	       @Param("teacherId") Long teacherId,
     	       @Param("semester") Integer semester);
 
-    @Query("SELECT new com.yourpackage.dto.analytics.QuestionAverageDTO(q.text, AVG(f.answer)) " +
-    	       "FROM Feedback f JOIN f.question q " +
-    	       "WHERE f.subject.id = :subjectId " +
-    	       "GROUP BY q.text")
-    	List<QuestionAverageDTO> findQuestionWiseAverage(@Param("subjectId") Long subjectId);
+    @Query("""
+    	       SELECT new com.mymood.feedbacksystem.Feedback.System.DTO.Analytics.QuestionAverageDTO('Question 1', AVG(f.question1_rating))
+    	       FROM FeedbackEntity f
+    	       WHERE f.subject.subjectId = :subjectId
+    	       """)
+    QuestionAverageDTO findAverageQuestion1(@Param("subjectId") Long subjectId);
 
-    @Query("SELECT new com.yourpackage.dto.analytics.BatchAverageDTO(s.batchName, AVG(f.rating)) " +
-    	       "FROM Feedback f JOIN f.student s " +
-    	       "WHERE f.subject.id = :subjectId " +
-    	       "GROUP BY s.batchName")
-    	List<BatchAverageDTO> findAverageByBatch(@Param("subjectId") Long subjectId);
+	@Query("""
+	       SELECT new com.mymood.feedbacksystem.Feedback.System.DTO.Analytics.QuestionAverageDTO('Question 2', AVG(f.question2_rating))
+	       FROM FeedbackEntity f
+	       WHERE f.subject.subjectId = :subjectId
+	       """)
+	QuestionAverageDTO findAverageQuestion2(@Param("subjectId") Long subjectId);
+	
+	@Query("""
+		       SELECT new com.mymood.feedbacksystem.Feedback.System.DTO.Analytics.QuestionAverageDTO('Question 3', AVG(f.question3_rating))
+		       FROM FeedbackEntity f
+		       WHERE f.subject.subjectId = :subjectId
+		       """)
+	QuestionAverageDTO findAverageQuestion3(@Param("subjectId") Long subjectId);
 
-    @Query("SELECT new com.yourpackage.dto.analytics.SectionAverageDTO(s.sectionName, AVG(f.rating)) " +
-    	       "FROM Feedback f JOIN f.student s " +
-    	       "WHERE f.subject.id = :subjectId " +
-    	       "GROUP BY s.sectionName")
-    	List<SectionAverageDTO> findAverageBySection(@Param("subjectId") Long subjectId);
+	@Query("""
+	       SELECT new com.mymood.feedbacksystem.Feedback.System.DTO.Analytics.QuestionAverageDTO('Question 4', AVG(f.question4_rating))
+	       FROM FeedbackEntity f
+	       WHERE f.subject.subjectId = :subjectId
+	       """)
+	QuestionAverageDTO findAverageQuestion4(@Param("subjectId") Long subjectId);
+
+	@Query("""
+		       SELECT new com.mymood.feedbacksystem.Feedback.System.DTO.Analytics.QuestionAverageDTO('Question 5', AVG(f.question5_rating))
+		       FROM FeedbackEntity f
+		       WHERE f.subject.subjectId = :subjectId
+		       """)
+	QuestionAverageDTO findAverageQuestion5(@Param("subjectId") Long subjectId);
+
+	@Query("""
+		       SELECT new com.mymood.feedbacksystem.Feedback.System.DTO.Analytics.BatchAverageDTO(
+		           s.batch.name, 
+		           AVG((f.question1_rating + f.question2_rating + f.question3_rating + f.question4_rating + f.question5_rating)/5)
+		       )
+		       FROM FeedbackEntity f
+		       JOIN f.student s
+		       WHERE f.subject.subjectId = :subjectId
+		       GROUP BY s.batch.name
+		       """)
+		List<BatchAverageDTO> findAverageByBatch(@Param("subjectId") Long subjectId);
+
+	@Query("""
+		       SELECT new com.mymood.feedbacksystem.Feedback.System.DTO.Analytics.SectionAverageDTO(
+		           s.section.name, 
+		           AVG((f.question1_rating + f.question2_rating + f.question3_rating + f.question4_rating + f.question5_rating)/5)
+		       )
+		       FROM FeedbackEntity f
+		       JOIN f.student s
+		       WHERE f.subject.subjectId = :subjectId
+		       GROUP BY s.section.name
+		       """)
+		List<SectionAverageDTO> findAverageBySection(@Param("subjectId") Long subjectId);
 
 }

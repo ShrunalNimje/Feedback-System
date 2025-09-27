@@ -16,14 +16,14 @@ import com.mymood.feedbacksystem.Feedback.System.Entity.TeacherSubjectAssignment
 @Repository
 public interface TeacherSubjectAssignmentRepository extends JpaRepository<TeacherSubjectAssignmentEntity, Long>{
 
-	boolean existsByTeacherAndSubjectAndSectionAndBatchAndYearAndSemester(TeacherEntity teacher, SubjectEntity subject,
-			SectionEntity section, BatchEntity batch, Integer year, Integer semester);
+	boolean existsByTeacherAndSubjectAndSectionAndBatchAndSemester(TeacherEntity teacher, SubjectEntity subject,
+			SectionEntity section, BatchEntity batch, Integer semester);
 
 	@Query("SELECT t FROM TeacherSubjectAssignmentEntity t WHERE t.section = :section AND t.batch = :batch")
 	List<TeacherSubjectAssignmentEntity> findBySectionAndBatch(@Param("section") SectionEntity section,
 	                                                           @Param("batch") BatchEntity batch);
 
-	@Query("SELECT a.subject FROM Assignment a WHERE a.teacher.id = :teacherId")
+	@Query("SELECT a.subject FROM TeacherSubjectAssignmentEntity a WHERE a.teacher.teacherId = :teacherId")
 	List<SubjectEntity> findSubjectsByTeacherId(@Param("teacherId") Long teacherId);
 
 	
