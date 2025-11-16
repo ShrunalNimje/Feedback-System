@@ -1,5 +1,7 @@
 package com.mymood.feedbacksystem.Feedback.System.Security;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +32,16 @@ public class SecurityConfiguration {
 		
 		http
 			.csrf(csrf -> csrf.disable())
-		
+			
+			.cors(cors -> cors.configurationSource(request -> {
+	            org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
+	            config.setAllowedOrigins(List.of("http://localhost:3000"));
+	            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+	            config.setAllowedHeaders(List.of("*")); 
+	            config.setAllowCredentials(true);
+	            return config;
+	        }))
+			
 			.authorizeHttpRequests(auth -> auth
 					.requestMatchers("/api/auth/**").permitAll()
 		            .requestMatchers("/api/admin/**").hasRole("ADMIN")
@@ -52,7 +63,7 @@ public class SecurityConfiguration {
 		
 		return http.build();
 	}
-	
+
 	@Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();

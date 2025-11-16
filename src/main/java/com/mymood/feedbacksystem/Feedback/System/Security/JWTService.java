@@ -11,6 +11,8 @@ import javax.crypto.SecretKey;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.mymood.feedbacksystem.Feedback.System.Enum.Role;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -30,6 +32,9 @@ private String secret_key;
 	
 	public String generateToken(String username) {
 		
+		System.out.println("Current time: " + System.currentTimeMillis());
+		System.out.println("JWT expiration: " + (System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7));
+
 		Map<String, Object> claims = new HashMap<>();
 		
 		return Jwts.builder()
@@ -37,7 +42,27 @@ private String secret_key;
 				.add(claims)
 				.subject(username)
 				.issuedAt(new Date(System.currentTimeMillis()))
-				.expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+				.expiration(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 7)))
+				.and()
+				.signWith(getKey())
+				.compact();
+		
+	}
+
+	public String generateTokenWithRole(String username, Role role) {
+		
+		System.out.println("Current time: " + System.currentTimeMillis());
+		System.out.println("JWT expiration: " + (System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7));
+
+		Map<String, Object> claims = new HashMap<>();
+		claims.put("role", role.name());
+		
+		return Jwts.builder()
+				.claims()
+				.add(claims)
+				.subject(username)
+				.issuedAt(new Date(System.currentTimeMillis()))
+				.expiration(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 7)))
 				.and()
 				.signWith(getKey())
 				.compact();
@@ -53,6 +78,10 @@ private String secret_key;
         return extractClaim(token, Claims::getSubject);
     }
 
+	public String extractRole(String token) {
+		return extractAllClaims(token).get("role", String.class);
+	}
+	
     private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
         final Claims claims = extractAllClaims(token);
         return claimResolver.apply(claims);
