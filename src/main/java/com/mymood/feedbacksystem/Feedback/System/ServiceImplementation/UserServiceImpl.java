@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -105,17 +106,36 @@ public class UserServiceImpl implements UserService {
 		userRepository.deleteById(id);	
 	}
 
+//	@Override
+//	public LoginResponseDTO authenticate(LoginRequestDTO request) {
+//		Authentication authentication = authManager.authenticate(
+//				new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())); 
+//		
+//		if(authentication.isAuthenticated()) {
+//			String token = jwtService.generateToken(request.getUsername());
+//			return new LoginResponseDTO(token);
+//		}
+//		
+//		throw new BadCredentialsException("Invalid username and password!");
+//	}
+	
 	@Override
 	public LoginResponseDTO authenticate(LoginRequestDTO request) {
-		Authentication authentication = authManager.authenticate(
-				new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())); 
-		
-		if(authentication.isAuthenticated()) {
-			String token = jwtService.generateToken(request.getUsername());
-			return new LoginResponseDTO(token);
-		}
-		
-		throw new BadCredentialsException("Invalid username and password!");
+	    Authentication authentication = authManager.authenticate(
+	            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+	    );
+
+	    if (authentication.isAuthenticated()) {
+	        UserEntity user = userRepository.findByUsername(request.getUsername())
+	                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+	        String token = jwtService.generateTokenWithRole(user.getUsername(), user.getRole());
+
+	        return new LoginResponseDTO(token);
+	    }
+
+	    throw new BadCredentialsException("Invalid username and password!");
 	}
+
 
 }

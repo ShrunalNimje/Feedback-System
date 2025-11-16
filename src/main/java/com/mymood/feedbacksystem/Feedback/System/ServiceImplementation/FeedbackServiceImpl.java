@@ -1,10 +1,12 @@
 package com.mymood.feedbacksystem.Feedback.System.ServiceImplementation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.mymood.feedbacksystem.Feedback.System.DTO.Request.FeedbackRequestDTO;
@@ -40,60 +42,74 @@ public class FeedbackServiceImpl implements FeedbackService{
 	
 	private static final float MIN_ATTENDANCE = 75.0f;
     
+	@Value("${feedback.location.validation.enabled:true}")
+    private boolean locationValidationEnabled;
+
 	@Override
-	public AnonymousFeedbackResponseDTO submitFeedback(FeedbackRequestDTO submit) {
-		
-        StudentEntity student = studentRepository.findById(submit.getStudentId())
-                .orElseThrow(() -> new RuntimeException("Student not found!"));
+	public List<AnonymousFeedbackResponseDTO> submitFeedback(List<FeedbackRequestDTO> submits) {
+	    List<AnonymousFeedbackResponseDTO> responses = new ArrayList<>();
 
-        TeacherEntity teacher = teacherRepository.findById(submit.getTeacherId())
-                .orElseThrow(() -> new RuntimeException("Teacher not found!"));
+	    for (FeedbackRequestDTO submit : submits) {
+	        StudentEntity student = studentRepository.findByEnrollmentId(submit.getEnrollmentId())
+	                .orElseThrow(() -> new RuntimeException("Student not found!"));
 
-        SubjectEntity subject = subjectRepository.findById(submit.getSubjectId())
-                .orElseThrow(() -> new RuntimeException("Subject not found"));
+	        TeacherEntity teacher = teacherRepository.findById(submit.getTeacherId())
+	                .orElseThrow(() -> new RuntimeException("Teacher not found!"));
 
-        if (student.getAttendancePercentage() < MIN_ATTENDANCE) {
-            throw new RuntimeException("Student attendance below required threshold!");
-        }
+	        SubjectEntity subject = subjectRepository.findById(submit.getSubjectId())
+	                .orElseThrow(() -> new RuntimeException("Subject not found"));
 
-        double collegeLat = 21.105260;
-        double collegeLng = 79.003490;
-        
-        double distance = GeoUtils.calculateDistance(
-        		submit.getLatitude(), submit.getLongitude(), collegeLat, collegeLng);
+	        if (student.getAttendancePercentage() < MIN_ATTENDANCE) {
+	            throw new RuntimeException("Student attendance below required threshold!");
+	        }
 
-        if (distance > 0.5) {
-            throw new RuntimeException("Feedback can only be submitted from within college premises.");
-        }
+	        if (locationValidationEnabled) {
+	            
+	        	double collegeLat = 21.105260;
+	            double collegeLng = 79.003490;
 
-        Optional<FeedbackEntity> existing = feedbackRepository.findByStudentAndTeacherAndSubjectAndSemester(
-                student, teacher, subject, submit.getSemester());
-        
-        if (existing.isPresent()) {
-            throw new RuntimeException("Feedback already submitted for this subject and teacher!");
-        }
+	            double distance = GeoUtils.calculateDistance(
+	                    submit.getLatitude(), submit.getLongitude(), collegeLat, collegeLng);
 
-        FeedbackEntity entity = new FeedbackEntity();
-        entity.setStudent(student);
-        entity.setTeacher(teacher);
-        entity.setSubject(subject);
-        entity.setSemester(submit.getSemester());
-        entity.setLatitude(submit.getLatitude());
-        entity.setLongitude(submit.getLongitude());
-        entity.setQuestion1_rating(submit.getQuestion1Rating());
-        entity.setQuestion2_rating(submit.getQuestion2Rating());
-        entity.setQuestion3_rating(submit.getQuestion3Rating());
-        entity.setQuestion4_rating(submit.getQuestion4Rating());
-        entity.setQuestion5_rating(submit.getQuestion5Rating());
+	            if (distance > 0.5) {
+	                throw new RuntimeException("Feedback can only be submitted from within college premises.");
+	            }
+	        }
 
-        FeedbackEntity saved = feedbackRepository.save(entity);
+	        Optional<FeedbackEntity> existing = feedbackRepository.findByStudentAndTeacherAndSubjectAndSemester(
+	                student, teacher, subject, submit.getSemester());
 
-        return new AnonymousFeedbackResponseDTO(
-                saved.getFeedbackId(),
-                saved.getTeacher().getName(),
-                saved.getSubject().getName(),
-                saved.getSemester(),
-                saved.getSubmittedAt());
+	        if (existing.isPresent()) {
+	            throw new RuntimeException("Feedback already submitted for this subject and teacher!");
+	        }
+
+	        FeedbackEntity entity = new FeedbackEntity();
+	        entity.setStudent(student);
+	        entity.setTeacher(teacher);
+	        entity.setSubject(subject);
+	        entity.setSemester(submit.getSemester());
+	        entity.setLatitude(submit.getLatitude());
+	        entity.setLongitude(submit.getLongitude());
+	        entity.setQuestion1_rating(submit.getQuestion1Rating());
+	        entity.setQuestion2_rating(submit.getQuestion2Rating());
+	        entity.setQuestion3_rating(submit.getQuestion3Rating());
+	        entity.setQuestion4_rating(submit.getQuestion4Rating());
+	        entity.setQuestion5_rating(submit.getQuestion5Rating());
+
+	        FeedbackEntity saved = feedbackRepository.save(entity);
+
+	        responses.add(new AnonymousFeedbackResponseDTO(
+	                saved.getFeedbackId(),
+	                saved.getTeacher().getName(),
+	                saved.getSubject().getName(),
+	                saved.getSemester(),
+	                saved.getSubmittedAt() /*,
+	                saved.getSubject().getSubjectId(),
+	                saved.getStudent().getBatch().getBatchId(),
+	                saved.getStudent().getSection().getSectionId()*/ ));
+	    }
+
+	    return responses;
 	}
 
 	@Override

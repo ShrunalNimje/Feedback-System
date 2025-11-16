@@ -206,9 +206,8 @@ public class TeacherServiceImpl implements TeacherService{
 	        analyticsList.add(new AnalyticsResponseDTO(teacher.getTeacherId(), subjectAnalyticsList));
 	    }
 	    return analyticsList;
-	}
+	}	
 
-	
 	@Override
 	public List<AnonymousFeedbackResponseDTO> getAnonymousFeedback(Long subjectId, Integer semester) {
 		return feedbackRepository.findAnonymousFeedback(subjectId, semester);

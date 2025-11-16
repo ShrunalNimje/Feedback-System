@@ -194,6 +194,8 @@ public class StudentServiceImpl implements StudentService{
 
 	    return assignments.stream().map(
 	    		a -> new TeacherSubjectResponseDTO(
+	    				a.getTeacher().getTeacherId(),
+	    				a.getSubject().getSubjectId(),
 	    				a.getTeacher().getName(),
 				        a.getSubject().getCode(),
 				        a.getSubject().getName(),
@@ -202,7 +204,9 @@ public class StudentServiceImpl implements StudentService{
 				        a.getBatch().getName(),
 				        a.getSection().getName(),
 				        a.getSection().getBranch().getName(),
-				        a.getSection().getBranch().getDepartment().getName()
+				        a.getSection().getBranch().getDepartment().getName(),
+				        student.getEnrollmentId(),
+	                    student.getName()   
 				        )).
 	    		collect(Collectors.toList());
 	}
