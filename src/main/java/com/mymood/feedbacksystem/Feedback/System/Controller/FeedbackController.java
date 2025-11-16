@@ -19,6 +19,7 @@ import com.mymood.feedbacksystem.Feedback.System.Security.CustomUserDetails;
 import com.mymood.feedbacksystem.Feedback.System.Service.FeedbackService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 
 @RestController
 @RequestMapping("/api/feedbacks")
@@ -27,11 +28,25 @@ public class FeedbackController {
     @Autowired
     private FeedbackService feedbackService;
 
+//    @PostMapping("/submit")
+//    @PreAuthorize("hasRole('STUDENT')")
+//    public ResponseEntity<String> submitFeedback(@Valid @RequestBody FeedbackRequestDTO request) {
+//        AnonymousFeedbackResponseDTO saved = feedbackService.submitFeedback(request);
+//        return ResponseEntity.ok("Feedback submitted successfully with id = " + saved.getFeedbackId());
+//    }
+
     @PostMapping("/submit")
     @PreAuthorize("hasRole('STUDENT')")
-    public ResponseEntity<String> submitFeedback(@Valid @RequestBody FeedbackRequestDTO request) {
-        AnonymousFeedbackResponseDTO saved = feedbackService.submitFeedback(request);
-        return ResponseEntity.ok("Feedback submitted successfully with id = " + saved.getFeedbackId());
+    public ResponseEntity<String> submitFeedback(@Valid @RequestBody @NotEmpty List<@Valid FeedbackRequestDTO> requests) {
+
+        requests.forEach(dto -> {
+            System.out.println("Received DTO: enrollmentId=" + dto.getEnrollmentId()
+                + ", teacherId=" + dto.getTeacherId()
+                + ", subjectId=" + dto.getSubjectId());
+        });
+
+        feedbackService.submitFeedback(requests);
+        return ResponseEntity.ok("Feedback submitted successfully for all subjects.");
     }
 
     @GetMapping("/student/{studentId}")

@@ -7,7 +7,7 @@ import com.mymood.feedbacksystem.Feedback.System.DTO.Response.AnonymousFeedbackR
 
 public interface FeedbackService {
 
-	AnonymousFeedbackResponseDTO submitFeedback(FeedbackRequestDTO submit);
+	List<AnonymousFeedbackResponseDTO> submitFeedback(List<FeedbackRequestDTO> submits);
 
     List<AnonymousFeedbackResponseDTO> getFeedbackByStudent(Long studentId, Long loggedInUserId, String roleStr);
 

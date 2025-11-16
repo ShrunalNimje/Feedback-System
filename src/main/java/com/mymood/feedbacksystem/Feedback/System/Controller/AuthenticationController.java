@@ -18,17 +18,19 @@ import jakarta.validation.Valid;
 @RequestMapping("/api")
 public class AuthenticationController {
 
-	@Autowired
+    @Autowired
     private UserService userService;
 
     @PostMapping("/auth/login")
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
-    	LoginResponseDTO token = userService.authenticate(request);
-        return ResponseEntity.ok(token);
+
+    	LoginResponseDTO response = userService.authenticate(request);
+        return ResponseEntity.ok(response);
     }
-    
+
     @GetMapping("/admin/dashboard")
     public ResponseEntity<String> getAdminDashboard() {
         return ResponseEntity.ok("Welcome to the Admin Dashboard!");
     }
 }
+
