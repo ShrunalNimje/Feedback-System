@@ -9,8 +9,8 @@ public class FeedbackRequestDTO {
 	@NotNull(message = "Teacher ID is required")
     private Long teacherId;
 
-    @NotNull(message = "Student ID is required")
-    private Long studentId;
+    @NotNull(message = "Enrollment ID is required")
+    private String enrollmentId;
 
     @NotNull(message = "Subject ID is required")
     private Long subjectId;
@@ -52,13 +52,13 @@ public class FeedbackRequestDTO {
     public FeedbackRequestDTO() {
     }
 
-    public FeedbackRequestDTO(Long teacherId, Long studentId, Long subjectId, Integer semester,
+    public FeedbackRequestDTO(Long teacherId, String enrollmentId, Long subjectId, Integer semester,
                               Double latitude, Double longitude,
                               Integer question1Rating, Integer question2Rating,
                               Integer question3Rating, Integer question4Rating,
                               Integer question5Rating) {
         this.teacherId = teacherId;
-        this.studentId = studentId;
+        this.enrollmentId = enrollmentId;
         this.subjectId = subjectId;
         this.semester = semester;
         this.latitude = latitude;
@@ -78,12 +78,12 @@ public class FeedbackRequestDTO {
         this.teacherId = teacherId;
     }
 
-    public Long getStudentId() {
-        return studentId;
+    public String getEnrollmentId() {
+        return enrollmentId;
     }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
+    public void setEnrollmentId(String enrollmentId) {
+        this.enrollmentId = enrollmentId;
     }
 
     public Long getSubjectId() {
